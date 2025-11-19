@@ -383,5 +383,3 @@ Feel free to fork, open issues, or submit pull requests.
 MIT License © 2025
 
 ---
-
----

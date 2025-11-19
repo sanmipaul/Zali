@@ -1,23 +1,26 @@
-import { configureChains, createConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-import { mainnet, sepolia } from 'wagmi/chains';
-import { CELO_NETWORK } from './contracts';
-import { getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { http, createConfig } from 'wagmi';
+import { celoAlfajores, celo } from 'wagmi/chains';
+import { injected, walletConnect } from 'wagmi/connectors';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 
-export const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [CELO_NETWORK, mainnet, sepolia],
-  [publicProvider()]
-);
-
-const { connectors } = getDefaultWallets({
-  appName: 'Celo Trivia',
-  projectId: 'YOUR_WALLETCONNECT_PROJECT_ID', // Replace with your WalletConnect project ID
-  chains,
+// MiniPay-optimized configuration using wagmi v2
+export const config = getDefaultConfig({
+  appName: 'Celo Knowledge Quest',
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
+  chains: [celoAlfajores, celo],
+  transports: {
+    [celoAlfajores.id]: http(),
+    [celo.id]: http(),
+  },
 });
 
-export const config = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-});
+// Helper to prepare transaction with feeCurrency for MiniPay
+export function prepareMiniPayTransaction(tx: any) {
+  return {
+    ...tx,
+    // MiniPay requires feeCurrency for cUSD gas payments
+    feeCurrency: '0x765DE816845861e75A25fCA122bb6898B8B1282a', // cUSD address
+    // Use legacy transaction type (not EIP-1559)
+    type: 'legacy' as const,
+  };
+}
