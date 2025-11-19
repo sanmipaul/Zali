@@ -29,7 +29,7 @@ contract FaucetTest is Test {
         vm.stopPrank();
     }
 
-    function test_InitialState() public {
+    function test_InitialState() public view {
         assertEq(address(faucet.cUSDToken()), address(mockCUSD));
         assertEq(faucet.CLAIM_AMOUNT(), 10 * 10**18);
     }
@@ -59,7 +59,7 @@ contract FaucetTest is Test {
     function test_OnlyOwnerCanWithdraw() public {
         // User1 tries to withdraw (should fail)
         vm.startPrank(user1);
-        vm.expectRevert("Ownable: caller is not the owner");
+        vm.expectRevert(abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", user1));
         faucet.withdrawTokens(10 * 10**18);
     }
 
@@ -77,7 +77,7 @@ contract FaucetTest is Test {
         assertEq(mockCUSD.balanceOf(address(faucet)), 0);
     }
 
-    function test_GetContractBalance() public {
+    function test_GetContractBalance() public view {
         uint256 balance = mockCUSD.balanceOf(address(faucet));
         assertEq(faucet.getContractBalance(), balance);
     }

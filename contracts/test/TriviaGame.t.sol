@@ -44,15 +44,13 @@ contract TriviaGameTest is Test {
         vm.stopPrank();
     }
     
-    function test_CreateGame() public {
+    function test_CreateGame() public view {
         // Game 1 was created in setUp
-        (uint256 id, , uint256 entryFee, uint256 prizePool, uint256 maxPlayers, , , TriviaGame.GameState state, , ) = triviaGame.games(1);
-        
-        assertEq(id, 1);
-        assertEq(entryFee, 0.1 * 10**18);
-        assertEq(prizePool, 0);
-        assertEq(maxPlayers, 3);
-        assertEq(uint256(state), 0); // GameState.Open
+        assertEq(triviaGame.getGameId(1), 1);
+        assertEq(triviaGame.getGameEntryFee(1), 0.1 * 10**18);
+        assertEq(triviaGame.getGamePrizePool(1), 0);
+        assertEq(triviaGame.getGameMaxPlayers(1), 3);
+        assertEq(uint256(triviaGame.getGameState(1)), 0); // GameState.Open
     }
     
     function test_JoinGame() public {
@@ -69,8 +67,7 @@ contract TriviaGameTest is Test {
         assertEq(mockCUSD.balanceOf(player1), (10 * 10**18) - (0.1 * 10**18));
         
         // Check that the prize pool increased
-        ( , , , uint256 prizePool, , , , , , ) = triviaGame.games(1);
-        assertEq(prizePool, 0.1 * 10**18);
+        assertEq(triviaGame.getGamePrizePool(1), 0.1 * 10**18);
     }
     
     function test_StartAndCompleteGame() public {
@@ -97,14 +94,10 @@ contract TriviaGameTest is Test {
         winners[1] = player2; // 2nd place
         winners[2] = player3; // 3rd place
         
-        // Get prize pool before distribution
-        ( , , , uint256 prizePoolBefore, , , , , , ) = triviaGame.games(1);
-        
         triviaGame.completeGame(1, winners);
         
         // Check game state
-        ( , , , , , , TriviaGame.GameState state, , , ) = triviaGame.games(1);
-        assertEq(uint256(state), 2); // GameState.Completed
+        assertEq(uint256(triviaGame.getGameState(1)), 2); // GameState.Completed
         
         // Check winners
         address[] memory gameWinners = triviaGame.getWinners(1);
@@ -126,10 +119,12 @@ contract TriviaGameTest is Test {
     }
     
     function test_CancelGame() public {
+        // Get initial balance before joining
+        uint256 initialBalance = mockCUSD.balanceOf(player1);
+        
         // Player1 joins the game
         vm.startPrank(player1);
         triviaGame.joinGame(1);
-        uint256 initialBalance = mockCUSD.balanceOf(player1);
         vm.stopPrank();
         
         // Cancel the game (as owner)
@@ -141,8 +136,7 @@ contract TriviaGameTest is Test {
         assertEq(finalBalance, initialBalance);
         
         // Check game state
-        ( , , , , , , TriviaGame.GameState state, , , ) = triviaGame.games(1);
-        assertEq(uint256(state), 3); // GameState.Cancelled
+        assertEq(uint256(triviaGame.getGameState(1)), 3); // GameState.Cancelled
     }
 }
 

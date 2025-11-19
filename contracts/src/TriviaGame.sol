@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title TriviaGame
@@ -200,5 +200,50 @@ contract TriviaGame is Ownable, ReentrancyGuard {
      */
     function hasPlayerJoined(uint256 gameId, address player) external view returns (bool) {
         return games[gameId].hasPlayed[player];
+    }
+
+    /**
+     * @dev Get game state
+     * @param gameId ID of the game
+     * @return Current state of the game
+     */
+    function getGameState(uint256 gameId) external view returns (GameState) {
+        return games[gameId].state;
+    }
+
+    /**
+     * @dev Get game prize pool
+     * @param gameId ID of the game
+     * @return Current prize pool amount
+     */
+    function getGamePrizePool(uint256 gameId) external view returns (uint256) {
+        return games[gameId].prizePool;
+    }
+
+    /**
+     * @dev Get game entry fee
+     * @param gameId ID of the game
+     * @return Entry fee for the game
+     */
+    function getGameEntryFee(uint256 gameId) external view returns (uint256) {
+        return games[gameId].entryFee;
+    }
+
+    /**
+     * @dev Get game max players
+     * @param gameId ID of the game
+     * @return Maximum number of players allowed
+     */
+    function getGameMaxPlayers(uint256 gameId) external view returns (uint256) {
+        return games[gameId].maxPlayers;
+    }
+
+    /**
+     * @dev Get game ID
+     * @param gameId ID of the game
+     * @return The game ID
+     */
+    function getGameId(uint256 gameId) external view returns (uint256) {
+        return games[gameId].id;
     }
 }
