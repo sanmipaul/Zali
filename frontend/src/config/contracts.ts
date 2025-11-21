@@ -111,11 +111,11 @@ const FAUCET_ABI = [
 // Contract addresses
 export const CONTRACTS = {
   triviaGame: {
-    address: (process.env.NEXT_PUBLIC_TRIVIA_GAME_ADDRESS || '0x0000000000000000000000000000000000000000') as `0x${string}`,
+    address: (process.env.NEXT_PUBLIC_TRIVIA_GAME_ADDRESS || '0x90c9ba691da6a027bf8cc173ea5171c29b3f3673') as `0x${string}`,
     abi: TRIVIA_GAME_ABI,
   },
   faucet: {
-    address: '0x707ECcbbFa9073F1e5A5675F22473956FE36FC8d' as `0x${string}`,
+    address: (process.env.NEXT_PUBLIC_FAUCET_ADDRESS || '0x707ECcbbFa9073F1e5A5675F22473956FE36FC8d') as `0x${string}`,
     abi: FAUCET_ABI,
   },
   cUSD: {
