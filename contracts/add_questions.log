@@ -1,0 +1,13 @@
+Compiling 1 files with Solc 0.8.24
+Solc 0.8.24 finished in 2.25s
+Error: Compiler run failed:
+Error (7398): Explicit type conversion not allowed from non-payable "address" to "contract TriviaGameV2", which has a payable fallback function.
+  --> script/AddQuestions.s.sol:14:35:
+   |
+14 |         TriviaGameV2 triviaGame = TriviaGameV2(triviaGameAddress);
+   |                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: Did you mean to declare this variable as "address payable"?
+  --> script/AddQuestions.s.sol:10:9:
+   |
+10 |         address triviaGameAddress = vm.envAddress("TRIVIA_GAME_V2_ADDRESS");
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
