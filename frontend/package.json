@@ -9,14 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@celo-tools/use-contractkit": "^3.1.0",
-    "@celo/contractkit": "^10.0.2",
-    "@rainbow-me/rainbowkit": "^2.2.9",
+    "@reown/appkit": "^1.8.14",
+    "@reown/appkit-adapter-wagmi": "^1.8.14",
     "@tanstack/react-query": "^5.90.10",
-    "@web3-react/core": "^8.2.3",
-    "@web3-react/injected-connector": "^6.0.7",
     "canvas-confetti": "^1.9.3",
-    "ethers": "^5.8.0",
     "framer-motion": "^11.18.2",
     "next": "16.0.3",
     "react": "19.2.0",

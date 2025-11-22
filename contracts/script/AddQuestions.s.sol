@@ -7,7 +7,7 @@ import "../src/TriviaGameV2.sol";
 contract AddQuestions is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        address triviaGameAddress = vm.envAddress("TRIVIA_GAME_V2_ADDRESS");
+        address triviaGameAddress = vm.envAddress("NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS");
         
         vm.startBroadcast(deployerPrivateKey);
 
