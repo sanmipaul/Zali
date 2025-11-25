@@ -3,7 +3,7 @@ import TriviaGameV2ABI from './TriviaGameV2ABI.json';
 // Contract addresses
 export const CONTRACTS = {
   triviaGameV2: {
-    address: (process.env.NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS || '0xc4AE01295cfAE3DA96b044F1a4284A93837a644C') as `0x${string}`,
+    address: (process.env.NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS || '0x31D785d1866E0345f134606df75046f565f62Ec1') as `0x${string}`,
     abi: TriviaGameV2ABI,
   },
   mockVRF: {
