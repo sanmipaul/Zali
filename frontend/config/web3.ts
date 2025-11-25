@@ -30,4 +30,25 @@ createAppKit({
 
 export const config = wagmiAdapter.wagmiConfig
 
+// Helper to prepare transaction with feeCurrency for MiniPay
+export function prepareMiniPayTransaction(tx: any) {
+  return {
+    ...tx,
+    // MiniPay requires feeCurrency for cUSD gas payments
+    feeCurrency: '0x765DE816845861e75A25fCA122bb6898B8B1282a', // cUSD address
+    // Use legacy transaction type (not EIP-1559)
+    type: 'legacy' as const,
+  };
+}
 
+// Helper to prepare contract write for MiniPay
+export function prepareMiniPayContractWrite(contractCall: any, isMiniPay: boolean) {
+  if (!isMiniPay) return contractCall;
+  
+  return {
+    ...contractCall,
+    // Add MiniPay-specific transaction properties
+    feeCurrency: '0x765DE816845861e75A25fCA122bb6898B8B1282a',
+    type: 'legacy' as const,
+  };
+}

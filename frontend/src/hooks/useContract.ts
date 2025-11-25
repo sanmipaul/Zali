@@ -207,7 +207,7 @@ export function useRewards() {
     args: address ? [address] : undefined,
   });
 
-  // Claim all rewards
+  // Claim all rewards with MiniPay support
   const {
     writeContract: claimRewards,
     data: claimData,
@@ -215,10 +215,6 @@ export function useRewards() {
     isError: claimIsError,
     error: claimError,
   } = useWriteContract();
-
-  const { isSuccess: claimIsSuccess } = useWaitForTransactionReceipt({
-    hash: claimData,
-  });
 
   // Claim specific session rewards
   const {
@@ -234,11 +230,14 @@ export function useRewards() {
   return {
     pendingRewards: pendingRewards ? formatEther(pendingRewards as bigint) : '0',
     unclaimedSessions: [],
-    claimRewards: () => claimRewards({
-      address: CONTRACTS.triviaGameV2.address,
-      abi: CONTRACTS.triviaGameV2.abi,
-      functionName: 'claimRewards',
-    }),
+    claimRewards: () => {
+      const tx = {
+        address: CONTRACTS.triviaGameV2.address,
+        abi: CONTRACTS.triviaGameV2.abi,
+        functionName: 'claimRewards',
+      };
+      return claimRewards(tx);
+    },
     claimIsLoading,
     claimIsSuccess,
     claimIsError,
