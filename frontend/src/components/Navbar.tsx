@@ -8,19 +8,32 @@ import { useAccount, useDisconnect } from 'wagmi';
 // Client-side AppKit hook
 function useClientAppKit() {
   const [appKit, setAppKit] = useState<any>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
         const { useAppKit } = require('@reown/appkit/react');
-        setAppKit(useAppKit());
+        const kit = useAppKit();
+        setAppKit(kit);
+        setIsReady(true);
       } catch (error) {
-        console.warn('AppKit not available');
+        console.warn('AppKit not available:', error);
+        setIsReady(true); // Still set ready to avoid infinite loading
       }
     }
   }, []);
 
-  return appKit || { open: () => console.warn('AppKit not ready') };
+  return {
+    open: () => {
+      if (appKit?.open) {
+        appKit.open();
+      } else {
+        console.warn('AppKit not ready');
+      }
+    },
+    isReady
+  };
 }
 
 export default function Navbar() {
@@ -28,7 +41,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
-  const { open } = useClientAppKit();
+  const { open, isReady } = useClientAppKit();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -66,7 +79,11 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="flex items-center space-x-2">
-              {isConnected ? (
+              {!isReady ? (
+                <div className="px-4 py-2 bg-gray-300 text-gray-600 rounded-md">
+                  Loading...
+                </div>
+              ) : isConnected ? (
                 <>
                   <button
                     onClick={() => open()}
@@ -95,7 +112,11 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
             <div className="flex items-center space-x-1">
-              {isConnected ? (
+              {!isReady ? (
+                <div className="px-2 py-1 text-xs bg-gray-300 text-gray-600 rounded">
+                  ...
+                </div>
+              ) : isConnected ? (
                 <>
                   <button
                     onClick={() => open()}

@@ -126,10 +126,7 @@ export default function GamePage() {
         }
       }
       
-      // Mark that user has played (for rewards)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('hasPlayedGame', 'true');
-      }
+
       
       toast.success(`Game complete! You scored ${score.correct}/${score.total}!`);
       

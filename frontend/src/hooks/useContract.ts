@@ -20,6 +20,8 @@ export function usePlayerRegistration() {
     args: address ? [address] : undefined,
     query: {
       enabled: !!address,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
     },
   });
 
@@ -49,7 +51,13 @@ export function usePlayerRegistration() {
   });
 
   // Check if registered by checking if username exists (index 0)
-  const isRegistered = playerInfo ? !!(playerInfo as any)[0] && (playerInfo as any)[0].length > 0 : false;
+  const isRegistered = useMemo(() => {
+    if (!playerInfo) return false;
+    const username = (playerInfo as any)[0];
+    const result = !!(username && username.length > 0);
+    console.log('Registration check:', { playerInfo, username, isRegistered: result });
+    return result;
+  }, [playerInfo]);
 
   return {
     playerInfo,
@@ -278,6 +286,8 @@ export function useRewards() {
     args: address ? [address] : undefined,
     query: {
       enabled: !!address,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
     },
   });
 
@@ -310,12 +320,8 @@ export function useRewards() {
     hash: claimSessionData,
   });
 
-  // Check if user has played recently (temporary solution)
-  const hasPlayedRecently = typeof window !== 'undefined' && localStorage.getItem('hasPlayedGame') === 'true';
-  const mockRewards = hasPlayedRecently ? '0.15' : '0';
-  
   return {
-    pendingRewards: pendingRewards ? formatEther(pendingRewards as bigint) : mockRewards,
+    pendingRewards: pendingRewards ? formatEther(pendingRewards as bigint) : '0',
     unclaimedSessions: [],
     claimRewards: () => {
       const tx = {
@@ -353,6 +359,10 @@ export function useLeaderboard(count: number = 10) {
     abi: CONTRACTS.triviaGameV2.abi,
     functionName: 'getLeaderboard',
     args: [BigInt(count)],
+    query: {
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+    },
   });
 
   // Transform the data into a more usable format
@@ -374,13 +384,8 @@ export function useLeaderboard(count: number = 10) {
     }));
   }, [leaderboardData]);
 
-  // Add mock data if no contract data
-  const finalData = transformedData.length > 0 ? transformedData : [
-    { address: address || '0x1234...5678', username: 'You', totalScore: 850, rank: 1 },
-  ].filter(p => address); // Only show if user is connected
-  
   return {
-    leaderboardData: finalData,
+    leaderboardData: transformedData,
     refetchLeaderboard,
   };
 }

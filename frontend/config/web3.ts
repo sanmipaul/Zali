@@ -9,7 +9,9 @@ const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'demo-proj
 const wagmiAdapter = new WagmiAdapter({
   networks: [celoSepolia, celo],
   projectId,
-  ssr: true
+  ssr: true,
+  // Enable auto-connect to detect existing connections
+  autoConnect: true
 })
 
 // 3. Configure the modal
@@ -27,7 +29,11 @@ createAppKit({
     analytics: false,
     email: false,
     socials: []
-  }
+  },
+  // Enable auto-connect and persistence
+  enableWalletConnect: true,
+  enableInjected: true,
+  enableCoinbase: true
 })
 
 export const config = wagmiAdapter.wagmiConfig
