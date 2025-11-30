@@ -1,6 +1,51 @@
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { celoSepolia, celo } from '@reown/appkit/networks'
+
+// Celo Sepolia configuration
+const celoSepolia = {
+  id: 44787,
+  name: 'Celo Sepolia',
+  network: 'celo-sepolia',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'CELO',
+    symbol: 'CELO',
+  },
+  rpcUrls: {
+    public: { http: ['https://sepolia-forno.celo-testnet.org'] },
+    default: { http: ['https://sepolia-forno.celo-testnet.org'] },
+  },
+  blockExplorers: {
+    default: { 
+      name: 'CeloScan',
+      url: 'https://sepolia.celoscan.io'
+    },
+  },
+  testnet: true,
+}
+
+// Celo Mainnet
+const celo = {
+  id: 42220,
+  name: 'Celo',
+  network: 'celo',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'CELO',
+    symbol: 'CELO',
+  },
+  rpcUrls: {
+    public: { http: ['https://forno.celo.org'] },
+    default: { http: ['https://forno.celo.org'] },
+  },
+  blockExplorers: {
+    default: { 
+      name: 'CeloScan',
+      url: 'https://celoscan.io'
+    },
+  },
+  testnet: false,
+}
 
 // 1. Get projectId from https://cloud.reown.com
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'demo-project-id'
@@ -10,7 +55,6 @@ const wagmiAdapter = new WagmiAdapter({
   networks: [celoSepolia, celo],
   projectId,
   ssr: true,
-  // Enable auto-connect to detect existing connections
   autoConnect: true
 })
 
@@ -30,7 +74,6 @@ createAppKit({
     email: false,
     socials: []
   },
-  // Enable auto-connect and persistence
   enableWalletConnect: true,
   enableInjected: true,
   enableCoinbase: true
@@ -42,9 +85,7 @@ export const config = wagmiAdapter.wagmiConfig
 export function prepareMiniPayTransaction(tx: any) {
   return {
     ...tx,
-    // MiniPay requires feeCurrency for cUSD gas payments
     feeCurrency: '0x765DE816845861e75A25fCA122bb6898B8B1282a', // cUSD address
-    // Use legacy transaction type (not EIP-1559)
     type: 'legacy' as const,
   };
 }
