@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { MiniPayBanner } from "@/components/MiniPayBanner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Zali - Learn, Play, Earn",
@@ -30,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-green-50 to-yellow-50 min-h-screen`}
-      >
+      <body className={`${inter.className} antialiased bg-gradient-to-br from-green-50 to-yellow-50 min-h-screen`}>
         <Providers>
           <MiniPayBanner />
           <Navbar />
