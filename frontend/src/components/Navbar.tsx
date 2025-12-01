@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAccount, useDisconnect } from 'wagmi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Client-side AppKit hook
 function useClientAppKit() {
@@ -42,6 +43,40 @@ export default function Navbar() {
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
   const { open, isReady } = useClientAppKit();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setMobileMenuOpen(false);
+    };
+    
+    router.events?.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events?.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current && 
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -141,11 +176,16 @@ export default function Navbar() {
               )}
             </div>
             <button
+              ref={menuButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
-              aria-expanded="false"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-haspopup="true"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">
+                {mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
+              </span>
               {!mobileMenuOpen ? (
                 <svg
                   className="block h-6 w-6"
@@ -185,26 +225,105 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  pathname === link.href
-                    ? 'bg-green-100 text-green-700'
-                    : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            
+            {/* Menu Panel */}
+            <motion.div
+              ref={mobileMenuRef}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.2 }}
+              className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-lg z-30 md:hidden overflow-y-auto"
+            >
+              <div className="flex justify-end p-4">
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  aria-label="Close menu"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <nav className="px-4 pt-2 pb-4">
+                <div className="space-y-1">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 * index }}
+                    >
+                      <Link
+                        href={link.href}
+                        className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                          pathname === link.href
+                            ? 'bg-green-100 text-green-700'
+                            : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  {!isReady ? (
+                    <div className="px-4 py-2 text-sm text-gray-500">Loading wallet...</div>
+                  ) : isConnected ? (
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          open();
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        Wallet: {address?.slice(0, 6)}...{address?.slice(-4)}
+                      </button>
+                      <button
+                        onClick={() => {
+                          disconnect();
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        Disconnect Wallet
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        open();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      Connect Wallet
+                    </button>
+                  )}
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
