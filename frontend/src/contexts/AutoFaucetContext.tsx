@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import { CONTRACTS } from '@/config/contracts';

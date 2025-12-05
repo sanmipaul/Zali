@@ -225,7 +225,7 @@ export default function RewardsPage() {
   }
 
   // Calculate progress percentage for the progress bar
-  const progressPercentage = Math.min(100, (parseFloat(pendingRewards) / 0.17) * 100);
+  const progressPercentage = Math.min(100, (parseFloat(pendingRewards || '0') / 0.17) * 100);
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -279,16 +279,66 @@ export default function RewardsPage() {
             {/* Progress Bar */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-gray-600 mb-2">
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    {playerInfo && playerInfo[0] ? playerInfo[0] : 'Player'}
-                  </h3>
-                title="Speed Bonus"
-                amount="Up to 0.02 cUSD"
-                description="Faster answers = More rewards"
-                color="text-blue-500"
-              />
+                <span>Level {level}</span>
+                <span>{points}/{(level * 100)} points</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div 
+                  className="bg-gradient-to-r from-blue-500 to-green-500 h-2.5 rounded-full" 
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <RewardCard 
+                  icon={<TrophyIcon className="w-6 h-6" />}
+                  title="Total Points"
+                  amount={points.toString()}
+                  description={`Level ${level} (${pointsToNextLevel} to next level)`}
+                  color="text-yellow-500"
+                />
+                <RewardCard 
+                  icon={<GiftIcon className="w-6 h-6" />}
+                  title="Pending Rewards"
+                  amount={`${pendingRewards} cUSD`}
+                  description="Available to claim"
+                  color="text-green-500"
+                  action={
+                    <button
+                      onClick={handleClaimRewards}
+                      disabled={isClaimingRewards || parseFloat(pendingRewards) <= 0}
+                      className={`px-4 py-2 rounded-lg font-medium text-sm ${
+                        isClaimingRewards || parseFloat(pendingRewards) <= 0
+                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-blue-500 to-green-500 text-white hover:opacity-90'
+                      }`}
+                    >
+                      {isClaimingRewards ? (
+                        <span className="flex items-center">
+                          <ArrowPathIcon className="w-4 h-4 mr-2 animate-spin" />
+                          Claiming...
+                        </span>
+                      ) : (
+                        'Claim Rewards'
+                      )}
+                    </button>
+                  }
+                />
+                <RewardCard 
+                  icon={<ClockIcon className="w-6 h-6" />}
+                  title="Time Bonus"
+                  amount="Up to 0.05 cUSD"
+                  description="Faster answers = More rewards"
+                  color="text-purple-500"
+                />
+                <RewardCard 
+                  icon={<FireIcon className="w-6 h-6" />}
+                  title="Streak Bonus"
+                  amount="Up to 0.05 cUSD"
+                  description="Daily rewards for consistent play"
+                  color="text-red-500"
+                />
+              </div>
             </div>
             
             <div className="mt-6 p-4 bg-white rounded-xl border border-green-100 shadow-sm">

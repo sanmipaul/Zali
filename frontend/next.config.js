@@ -41,6 +41,12 @@ const nextConfig = {
       })
     );
 
+    // Add this to your webpack config in next.config.js
+config.resolve.alias = {
+  ...config.resolve.alias,
+  'hoist-non-react-statics': require.resolve('hoist-non-react-statics')
+};
+
     // Handle Node.js modules that might be required by dependencies
     if (!isServer) {
       config.resolve.fallback = {
