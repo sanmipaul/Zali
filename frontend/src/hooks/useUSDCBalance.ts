@@ -1,20 +1,19 @@
 import { useAccount, useBalance } from 'wagmi';
 import { CONTRACTS } from '@/config/contracts';
-import { formatEther } from 'viem';
 
-export function useCUSDBalance() {
+export function useUSDCBalance() {
   const { address } = useAccount();
 
   const { data: balance, refetch: refetchBalance } = useBalance({
     address: address as `0x${string}`,
-    token: CONTRACTS.cUSD.address,
+    token: CONTRACTS.USDC.address,
     watch: true,
   });
 
   return {
-    balance: balance?.value ? formatEther(balance.value) : '0',
+    balance: balance?.value ? Number(balance.value) / 1e6 : 0, // USDC has 6 decimals
     formatted: balance?.formatted || '0',
-    symbol: 'cUSD',
+    symbol: 'USDC',
     refetchBalance,
     raw: balance?.value,
   };
