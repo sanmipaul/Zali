@@ -1,30 +1,30 @@
 
-# **CeloTrivia – Web3 Mobile Trivia Game**
+# **Zali – Web3 Trivia Game**
 
-A mobile-first, tokenized trivia game built for the Celo ecosystem.
-Players claim free test cUSD, join trivia rounds, answer questions, and instantly win real cUSD rewards on-chain.
+A Web3 trivia game built on Base network.
+Players can play trivia rounds, answer questions, and earn real ETH rewards on-chain.
 
 ---
 
 ## 📱 **Overview**
 
-CeloTrivia is a fun, lightweight Web3 game designed to showcase:
+Zali is a fun, lightweight Web3 game designed to showcase:
 
-* **Seamless MiniPay wallet integration**
-* **Fast on-chain transactions**
-* **Real token rewards (test cUSD)**
-* **Smooth mobile gameplay**
+* **Seamless Web3 wallet integration**
+* **Fast L2 transactions on Base**
+* **Real ETH rewards**
+* **Smooth gameplay experience**
 * **Secure, simple blockchain architecture**
 
 Players can:
 
-1. Connect their MiniPay wallet
-2. Claim **10 test cUSD** once
-3. Join trivia rounds using a **0.1 cUSD entry fee**
+1. Connect their Web3 wallet (MetaMask, Coinbase Wallet, etc.)
+2. Register a username
+3. Play **free trivia rounds** (no entry fee)
 4. Answer timed trivia questions
-5. Win rewards paid automatically via smart contracts
+5. Earn ETH rewards paid automatically via smart contracts
 
-No staking. No long setup. Just **tap → play → win**.
+No staking. No long setup. Just **connect → play → earn**.
 
 ---
 
@@ -33,10 +33,10 @@ No staking. No long setup. Just **tap → play → win**.
 (Provide once deployed)
 
 * **Frontend:** [https://yourapp.vercel.app](https://yourapp.vercel.app)
-* **Celo Alfajores Contract Addresses:**
+* **Base Mainnet Contract Addresses:**
 
-  * Faucet: `0x...`
-  * TriviaGame: `0x...`
+  * TriviaGameV2: `0x...` (to be deployed)
+  * Faucet: `0x...` (to be deployed)
 * **Demo Video:** (Link after recording)
 
 ---
@@ -45,40 +45,45 @@ No staking. No long setup. Just **tap → play → win**.
 
 ### 🌐 **Wallet Integration**
 
-* Uses **MiniPay** for frictionless onboarding
+* Works with **any Web3 wallet** (MetaMask, Coinbase Wallet, WalletConnect)
 * Instant balance updates
-* Gasless feel (fast/cheap Celo txs)
+* Fast and cheap Base L2 transactions
 
-### 💰 **One-Time Faucet Claim**
+### 💰 **Optional USDC Faucet**
 
-* Each player receives **10 test cUSD** once
+* Each player can receive **10 USDC** once (testnet only)
 * Enforced by smart contract
 * Secure against multiple claims
 
 ### 🕹 **Trivia Gameplay**
 
-* 3–5 timed questions per round
-* Multiple-choice
-* Responsive, mobile-first UI
-* Questions served from backend API
+* 10 random questions per game session
+* Multiple-choice questions
+* 5-minute time limit
+* Responsive UI with smooth animations
+* Questions selected via Chainlink VRF for fairness
 
 ### 🎁 **Reward Distribution**
 
-* Entry fee = **0.1 cUSD**
-* Prize pool = all entry fees in the round
-* Winner (or top 3) receives payout automatically
-* Distributed via **TriviaGame.sol**
+* **FREE to play** (no entry fee)
+* Earn **0.001 ETH per correct answer**
+* Earn **0.005 ETH bonus** for perfect score (10/10)
+* Earn up to **0.002 ETH speed bonus** for fast answers
+* **Max reward per game: 0.017 ETH**
+* Rewards distributed automatically via smart contract
 
 ### 🏆 **Leaderboard**
 
-* Track top winners
-* Stored in backend (optional)
+* Track top 100 players by total score
+* Username registration system
+* Weekly reward distribution for top 10 players
+* Real-time rank updates
 
-### 📱 **Built for Mobile**
+### 📱 **Built for All Devices**
 
-* Optimized UI
-* Large tap targets
-* Smooth animations
+* Responsive design
+* Optimized for both desktop and mobile
+* Smooth animations with Framer Motion
 * Minimal steps to play
 
 ---
@@ -88,20 +93,21 @@ No staking. No long setup. Just **tap → play → win**.
 ## High-Level Flow
 
 ```
-MiniPay Wallet → Faucet Claim → Lobby → Pay Entry Fee → Play Trivia → Off-chain Scoring → On-chain Reward Payout
+Web3 Wallet → Register Username → Start Game → Answer Questions → Submit Answers → Claim ETH Rewards
 ```
 
 ## System Diagram
 
 ```
-+------------------+      +------------------+     +----------------------+
-|  Frontend (Next) | <--> | Backend (API)    | <-> | Questions Database   |
-+------------------+      +------------------+     +----------------------+
++------------------+      +----------------------+     +----------------------+
+|  Frontend (Next) | <--> | TriviaGameV2.sol     | <-> | Chainlink VRF V2     |
++------------------+      +----------------------+     +----------------------+
          |                          |
          |                          |
          v                          v
 +------------------+      +------------------+
-|  Faucet.sol      |      | TriviaGame.sol   |
+|  Faucet.sol      |      | USDC Token       |
+|  (Optional)      |      | (Base Mainnet)   |
 +------------------+      +------------------+
 ```
 
@@ -111,67 +117,100 @@ MiniPay Wallet → Faucet Claim → Lobby → Pay Entry Fee → Play Trivia → 
 
 ### **Smart Contracts**
 
-* Solidity
-* Hardhat
-* cUSD ERC20
-* Celo Alfajores testnet
+* Solidity 0.8.20
+* Foundry (Forge)
+* OpenZeppelin Contracts
+* Chainlink VRF V2
+* Base Mainnet
+* USDC (ERC20)
 
 ### **Frontend**
 
 * Next.js 14 (App Router)
-* React
+* React 18
 * TypeScript
-* Composer Kit
+* Wagmi v2 (React Hooks for Ethereum)
+* Viem (Ethereum utilities)
+* Reown AppKit (WalletConnect v2)
+* TailwindCSS
+* Framer Motion
+* React Hot Toast
 
 ### **Backend**
 
-* Next.js API Routes
-* Storage: JSON or Supabase
+* On-chain only (no traditional backend)
+* Questions stored in smart contract
+* Chainlink VRF for randomness
 
 ---
 
 # 📦 **Project Structure**
 
 ```
-celo-trivia/
-  ├── contracts/
-  │    ├── Faucet.sol
-  │    ├── TriviaGame.sol
+Zali/
+  ├── contracts/               # Smart contracts (Foundry)
+  │    ├── src/
+  │    │    ├── Faucet.sol
+  │    │    ├── TriviaGame.sol
+  │    │    ├── TriviaGameV2.sol
+  │    │    └── MockVRF*.sol
+  │    ├── script/            # Deployment scripts
+  │    │    ├── Deploy.s.sol
+  │    │    ├── DeployTriviaGameV2.s.sol
+  │    │    └── Add*Questions.s.sol
+  │    ├── test/              # Contract tests
+  │    └── foundry.toml       # Foundry config
   ├── frontend/
-  │    ├── app/
-  │    ├── components/
-  │    ├── lib/
-  ├── database/
-  │    └── questions.json
-  ├── scripts/
-  ├── hardhat.config.js
-  ├── README.md
+  │    ├── src/
+  │    │    ├── app/          # Next.js pages
+  │    │    ├── components/   # React components
+  │    │    ├── hooks/        # Custom hooks
+  │    │    ├── config/       # Contract ABIs & addresses
+  │    │    ├── store/        # Zustand state management
+  │    │    └── contexts/     # React contexts
+  │    ├── config/            # Web3 configuration
+  │    └── package.json
+  ├── BASE_MIGRATION_GUIDE.md
+  └── README.md
 ```
 
 ---
 
 # 🔐 **Smart Contracts**
 
-### **Faucet.sol**
+### **TriviaGameV2.sol** (Main Contract)
 
-Provides a one-time 10 cUSD claim per user.
+Manages the complete trivia game with leaderboard, VRF randomness, and ETH rewards.
+
+Key features:
+- Username registration system
+- Chainlink VRF V2 for random question selection
+- On-chain question storage
+- Automatic ETH reward distribution
+- Leaderboard tracking (top 100 players)
+- Weekly reward pools for top players
+- Speed bonus calculations
+
+Key functions:
+
+```solidity
+function registerUsername(string memory _username) external;
+function startGame() external returns (uint256 sessionId);
+function submitAnswers(uint256 _sessionId, uint8[] calldata _answers) external;
+function claimRewards() external;
+function getLeaderboard(uint256 _count) external view returns (...);
+function addQuestion(...) external onlyOwner;
+```
+
+### **Faucet.sol** (Optional - Testnet Only)
+
+Provides a one-time 10 USDC claim per user for testing.
 
 Key functions:
 
 ```solidity
 function claim() external;
-function refill(uint amount) external onlyOwner;
-```
-
-### **TriviaGame.sol**
-
-Manages rounds, entry fees, and payouts.
-
-Key functions:
-
-```solidity
-function joinRound(uint256 roundId) external;
-function payoutWinners(uint256 roundId, address[] winners) external onlyOwner;
+function withdrawTokens(uint256 amount) external onlyOwner;
 ```
 
 ---
@@ -181,17 +220,17 @@ function payoutWinners(uint256 roundId, address[] winners) external onlyOwner;
 ## 1️⃣ Clone the Repo
 
 ```bash
-git clone https://github.com/yourname/celo-trivia.git
-cd celo-trivia
+git clone https://github.com/yourname/zali.git
+cd Zali
 ```
 
 ## 2️⃣ Install Dependencies
 
-### Smart Contracts
+### Smart Contracts (Foundry)
 
 ```bash
 cd contracts
-npm install
+forge install
 ```
 
 ### Frontend
@@ -205,35 +244,91 @@ npm install
 
 # ⚙ **Environment Variables**
 
-Create a `.env` file in `/frontend`:
+Create a `.env.local` file in `/frontend`:
 
+```bash
+# Contract Addresses (update after deployment)
+NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS=0x...
+NEXT_PUBLIC_FAUCET_ADDRESS=0x... # Optional - testnet only
+NEXT_PUBLIC_MOCK_VRF_ADDRESS=0x... # Optional - for testing
+
+# Network Configuration
+NEXT_PUBLIC_RPC_URL=https://mainnet.base.org
+
+# WalletConnect
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+
+# Deployer Private Key (for deployment only)
+PRIVATE_KEY=your_private_key_here
 ```
-NEXT_PUBLIC_CUSD_ADDRESS=0x...
-NEXT_PUBLIC_FAUCET_ADDRESS=0x...
-NEXT_PUBLIC_TRIVIA_ADDRESS=0x...
-NEXT_PUBLIC_CHAIN_ID=44787
-```
+
+### Network Details:
+- **Base Mainnet**: Chain ID `8453`
+- **Base Sepolia (Testnet)**: Chain ID `84532`
 
 ---
 
 # 🧪 **Testing Smart Contracts**
 
-Run Hardhat tests:
+Run Foundry tests:
 
 ```bash
-npx hardhat test
+cd contracts
+forge test
+forge test -vvv # Verbose output
 ```
 
 ---
 
 # 🚀 **Deploy Contracts**
 
+### Step 1: Set Up Chainlink VRF Subscription
+
+1. Visit https://vrf.chain.link
+2. Create a subscription on Base Mainnet
+3. Fund with LINK tokens
+4. Copy subscription ID
+5. Update `contracts/script/DeployTriviaGameV2.s.sol` with your subscription ID
+
+### Step 2: Deploy TriviaGameV2
+
 ```bash
-npx hardhat run scripts/deploy_faucet.js --network alfajores
-npx hardhat run scripts/deploy_trivia.js --network alfajores
+cd contracts
+
+# Deploy to Base Mainnet
+forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+  --rpc-url https://mainnet.base.org \
+  --broadcast --verify \
+  --etherscan-api-key $BASESCAN_API_KEY
+
+# Or deploy to Base Sepolia (testnet)
+forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+  --rpc-url https://sepolia.base.org \
+  --broadcast --verify \
+  --etherscan-api-key $BASESCAN_API_KEY
 ```
 
-Copy contract addresses → `/frontend/lib/contracts.ts`.
+### Step 3: Add Contract as VRF Consumer
+
+Go to https://vrf.chain.link and add your deployed contract address as a consumer.
+
+### Step 4: Fund Contract with ETH
+
+```bash
+cast send YOUR_CONTRACT_ADDRESS --value 0.5ether \
+  --rpc-url https://mainnet.base.org \
+  --private-key $PRIVATE_KEY
+```
+
+### Step 5: Add Questions
+
+```bash
+forge script script/AddBasicQuestions.s.sol \
+  --rpc-url https://mainnet.base.org \
+  --broadcast
+```
+
+Copy contract addresses → `/frontend/src/config/contracts.ts`.
 
 ---
 
@@ -263,112 +358,144 @@ Add environment variables on Vercel.
 
 ---
 
-# 📄 **API Endpoints**
+# 📄 **Smart Contract Events**
 
-### `GET /api/questions`
+The contracts emit events for tracking game progress:
 
-Returns 5 random trivia questions.
+### TriviaGameV2 Events
 
-### `POST /api/session`
-
-Receives answers, computes score, selects winner.
-
-### `POST /api/payout`
-
-Triggers payout via TriviaGame contract.
+```solidity
+event PlayerRegistered(address indexed player, string username);
+event GameStarted(address indexed player, uint256 sessionId, uint256 requestId);
+event QuestionsAssigned(address indexed player, uint256 sessionId, uint256[] questionIds);
+event GameCompleted(address indexed player, uint256 sessionId, uint256 score, uint8 correctCount, uint256 reward);
+event RewardClaimed(address indexed player, uint256 amount);
+event LeaderboardUpdated(address indexed player, uint256 newRank, uint256 totalScore);
+```
 
 ---
 
 # 🧭 **Gameplay Logic**
 
-### 1. User connects MiniPay
+### 1. User connects Web3 wallet
 
-Balance fetched in real time.
+ETH balance fetched in real time.
 
-### 2. User claims faucet
+### 2. User registers username
 
-Smart contract enforces one claim only.
+One-time registration, stored on-chain.
 
-### 3. User enters round
+### 3. User starts game
 
-0.1 cUSD deducted.
+Transaction triggers Chainlink VRF request for random questions.
 
-### 4. Trivia starts
+### 4. VRF assigns random questions
 
-Questions fetched via API.
+Chainlink VRF callback selects 10 random questions from contract storage.
 
-### 5. Answers submitted
+### 5. User plays trivia
 
-Backend calculates score.
+10 multiple-choice questions with 5-minute time limit.
 
-### 6. Winner selected
+### 6. User submits answers
 
-Backend triggers payout.
+Smart contract calculates:
+- Correct answer count
+- Speed bonus (faster = more bonus)
+- Total score
+- ETH reward amount
 
-### 7. User sees result screen
+### 7. Leaderboard updates
 
-Reward info + transaction link.
+Player's rank updates automatically based on total score.
+
+### 8. User claims rewards
+
+ETH rewards transferred instantly to player's wallet.
+
+### 9. Weekly rewards (optional)
+
+Top 10 players share weekly reward pool.
 
 ---
 
 # 🎨 **UI/UX Features**
 
-* Mobile-first layout
-* Large buttons
-* Smooth animations
-* Question timer
-* Progress bar
-* Skeleton loading states
-* Toast notifications
+* Responsive design (mobile & desktop)
+* Smooth animations with Framer Motion
+* Question timer with visual countdown
+* Progress tracking
+* Real-time balance updates
+* Toast notifications for transactions
+* Error boundaries for graceful error handling
+* Loading states and skeleton screens
+* Gradient themes
+* Interactive leaderboard
+* Wallet connection modal (AppKit)
 
 ---
 
-# 📈 **Leaderboard (Optional)**
+# 📈 **Leaderboard System**
 
-Track:
+On-chain leaderboard tracking:
 
-* Wallet address
-* Wins
-* Total earnings
+* **Top 100 players** by total score
+* Player username
+* Total score (includes correct answers + speed bonuses)
+* Games played
+* Best score in a single session
+* Accuracy percentage
+* Real-time rank updates
 
-Store in DB.
+Weekly rewards:
+* Top 10 players share weekly reward pool
+* Distribution: 40%, 25%, 15%, 10%, 5%, 2.5%, 1%, 0.5%, 0.5%, 0.5%
 
 ---
 
 # 🛡 **Security Notes**
 
-* Faucet uses strict one-claim mapping
-* TriviaGame holds only prize pool funds
-* Payouts owner-restricted
-* No on-chain randomness
-* Rates gas usage
+* **Reentrancy Protection**: All contracts use OpenZeppelin's `ReentrancyGuard`
+* **Access Control**: Admin functions protected with `onlyOwner` modifier
+* **Safe Token Transfers**: Using OpenZeppelin's `SafeERC20` for USDC operations
+* **Chainlink VRF**: Provably fair randomness for question selection
+* **One-time faucet claims**: Enforced by mapping
+* **Username validation**: Alphanumeric + underscore only
+* **Time limits**: 5-minute timeout per game session
+* **Gas optimization**: Efficient storage patterns and loops
+* **No price manipulation**: Rewards are fixed in ETH, not dependent on oracle prices
 
 ---
 
 # 🎥 **Demo Video Instructions**
 
-Your 4-minute demo should include:
+Your demo video should include:
 
-1. Opening the webapp in MiniPay
-2. Connecting wallet
-3. Claiming faucet
-4. Joining a round
-5. Playing trivia
-6. Winning rewards
-7. Showing transaction hash
-8. Summarizing architecture
+1. Opening the webapp in browser
+2. Connecting Web3 wallet (MetaMask/Coinbase Wallet)
+3. Registering username
+4. Starting a game session
+5. Showing Chainlink VRF question assignment
+6. Playing trivia (answering questions)
+7. Submitting answers and viewing score
+8. Claiming ETH rewards
+9. Viewing leaderboard position
+10. Showing transaction on BaseScan
+11. Explaining the architecture and Base integration
 
 ---
 
 # 🏆 **Why This Project Stands Out**
 
-* Perfect match for hackathon theme
-* Fast onboarding
-* Fun gameplay
-* Real rewards
-* Lightweight smart contracts
-* Clean mobile UX
-* Fully documented
+* **Built on Base**: Fast, cheap L2 transactions
+* **Chainlink VRF Integration**: Provably fair randomness
+* **Real ETH rewards**: Instant payouts on-chain
+* **No entry fees**: Free to play, earn based on performance
+* **Comprehensive leaderboard**: Competitive gameplay with weekly rewards
+* **Production-ready**: Full error handling, state management, and testing
+* **Fully on-chain**: No backend dependencies
+* **Modern Web3 stack**: Wagmi, Viem, AppKit for seamless wallet integration
+* **Clean architecture**: Well-documented and maintainable code
 
 ---
 
@@ -381,5 +508,25 @@ Feel free to fork, open issues, or submit pull requests.
 # 📜 **License**
 
 MIT License © 2025
+
+---
+
+## 🔗 **Important Links**
+
+- **Base Mainnet Explorer**: https://basescan.org
+- **Base Sepolia Explorer**: https://sepolia.basescan.org
+- **Base Documentation**: https://docs.base.org
+- **Chainlink VRF (Base)**: https://docs.chain.link/vrf/v2/subscription/supported-networks#base-mainnet
+- **USDC on Base**: https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+- **Get testnet ETH**: https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet
+
+---
+
+## 🆘 **Support & Contact**
+
+For issues, questions, or contributions:
+- Open an issue on GitHub
+- Check `BASE_MIGRATION_GUIDE.md` for deployment help
+- Review contract documentation in `/contracts/src/`
 
 ---
