@@ -12,6 +12,15 @@ import "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.s
  * Rewards paid in native ETH on Base network
  */
 contract TriviaGameV2 is Ownable, ReentrancyGuard, VRFConsumerBaseV2 {
+    // Custom Errors
+    error InvalidVRFCoordinator();
+    error TransferFailed();
+    error InsufficientBalance();
+    error NoRewardsToClaim();
+    error NoRewardsToDistribute();
+    error TooEarlyForDistribution();
+    error NoPlayers();
+    
     VRFCoordinatorV2Interface public vrfCoordinator;
     
     // Chainlink VRF Configuration
