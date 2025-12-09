@@ -109,7 +109,7 @@ contract TriviaGameV2 is Ownable, ReentrancyGuard, VRFConsumerBaseV2 {
         uint64 _subscriptionId,
         bytes32 _keyHash
     ) Ownable(msg.sender) VRFConsumerBaseV2(_vrfCoordinator) payable {
-        require(_vrfCoordinator != address(0), "Invalid VRF coordinator");
+        if (_vrfCoordinator == address(0)) revert InvalidVRFCoordinator();
         
         vrfCoordinator = VRFCoordinatorV2Interface(_vrfCoordinator);
         subscriptionId = _subscriptionId;
