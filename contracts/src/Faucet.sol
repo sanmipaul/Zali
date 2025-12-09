@@ -36,17 +36,11 @@ contract Faucet is Ownable, ReentrancyGuard {
      * @dev Allows users to claim their test USDC tokens (one-time only)
      */
     function claim() external nonReentrant {
-        require(!hasClaimed[msg.sender], "Already claimed");
-        require(
-            usdcToken.balanceOf(address(this)) >= CLAIM_AMOUNT,
-            "Insufficient contract balance"
-        );
+        if (hasClaimed[msg.sender]) revert AlreadyClaimed();
+        if (usdcToken.balanceOf(address(this)) < CLAIM_AMOUNT) revert InsufficientContractBalance();
 
         hasClaimed[msg.sender] = true;
-        require(
-            usdcToken.transfer(msg.sender, CLAIM_AMOUNT),
-            "Transfer failed"
-        );
+        if (!usdcToken.transfer(msg.sender, CLAIM_AMOUNT)) revert TransferFailed();
 
         emit TokensClaimed(msg.sender, CLAIM_AMOUNT);
     }
