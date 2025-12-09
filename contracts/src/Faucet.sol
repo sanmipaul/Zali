@@ -10,6 +10,12 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
  * @dev A contract that distributes test USDC tokens to users (one-time claim)
  */
 contract Faucet is Ownable, ReentrancyGuard {
+    // Custom Errors
+    error InvalidTokenAddress();
+    error AlreadyClaimed();
+    error InsufficientContractBalance();
+    error TransferFailed();
+    error InsufficientBalance();
     IERC20 public usdcToken;
     uint256 public constant CLAIM_AMOUNT = 10 * 10**6; // 10 USDC (6 decimals)
     mapping(address => bool) public hasClaimed;
@@ -22,7 +28,7 @@ contract Faucet is Ownable, ReentrancyGuard {
      * @param _usdcTokenAddress Address of the USDC token contract
      */
     constructor(address _usdcTokenAddress) Ownable(msg.sender) {
-        require(_usdcTokenAddress != address(0), "Invalid token address");
+        if (_usdcTokenAddress == address(0)) revert InvalidTokenAddress();
         usdcToken = IERC20(_usdcTokenAddress);
     }
 
