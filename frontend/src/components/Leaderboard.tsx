@@ -33,17 +33,17 @@ export function Leaderboard({ data, currentUserAddress, className = '' }: Leader
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden ${className}`}>
+    <section className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden ${className}`} aria-label="Game leaderboard">
       <div className="p-6 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900 flex items-center">
-          <TrophyIcon className="h-5 w-5 text-yellow-500 mr-2" />
+        <h2 className="text-lg font-medium text-gray-900 flex items-center">
+          <TrophyIcon className="h-5 w-5 text-yellow-500 mr-2" aria-hidden="true" />
           Leaderboard
-        </h3>
+        </h2>
       </div>
       
-      <div className="divide-y divide-gray-200">
+      <ol className="divide-y divide-gray-200" role="list" aria-label="Top 10 players ranking">
         {topEntries.map((entry, index) => (
-          <motion.div 
+          <motion.li 
             key={entry.address}
             className={`flex items-center px-6 py-4 ${
               entry.address.toLowerCase() === currentUserAddress?.toLowerCase() 
@@ -54,40 +54,43 @@ export function Leaderboard({ data, currentUserAddress, className = '' }: Leader
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
           >
-            <div className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center font-medium text-sm ${getMedalColor(entry.rank)}`}>
+            <div 
+              className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center font-medium text-sm ${getMedalColor(entry.rank)}`}
+              aria-label={`Rank ${entry.rank}`}
+            >
               {entry.rank}
             </div>
             <div className="ml-4 flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
                 {entry.username || `Player ${entry.rank}`}
               </p>
-              <p className="text-xs text-gray-500 truncate">
+              <p className="text-xs text-gray-500 truncate" aria-label={`Wallet address: ${entry.address}`}>
                 {`${entry.address.slice(0, 6)}...${entry.address.slice(-4)}`}
               </p>
             </div>
             <div className="ml-4">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" aria-label={`Score: ${entry.totalScore} points`}>
                 {entry.totalScore} pts
               </span>
             </div>
-          </motion.div>
+          </motion.li>
         ))}
         
         {currentUserEntry && !topEntries.some(e => e.address === currentUserAddress) && (
           <>
-            <div className="h-px bg-gray-200 w-full my-2"></div>
-            <div className="px-6 py-3 bg-blue-50">
+            <li className="h-px bg-gray-200 w-full my-2" aria-hidden="true"></li>
+            <li className="px-6 py-3 bg-blue-50" role="listitem">
               <div className="flex items-center">
-                <UserCircleIcon className="h-5 w-5 text-gray-400 mr-2" />
+                <UserCircleIcon className="h-5 w-5 text-gray-400 mr-2" aria-hidden="true" />
                 <span className="text-sm font-medium text-gray-700">Your rank: {currentUserEntry.rank}</span>
-                <span className="ml-auto text-sm font-medium text-gray-700">
+                <span className="ml-auto text-sm font-medium text-gray-700" aria-label={`Your score: ${currentUserEntry.totalScore} points`}>
                   {currentUserEntry.totalScore} pts
                 </span>
               </div>
-            </div>
+            </li>
           </>
         )}
-      </div>
-    </div>
+      </ol>
+    </section>
   );
 }
