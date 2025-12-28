@@ -322,6 +322,8 @@ export function useTokenTransfer(): UseTokenTransferReturn {
   useEffect(() => {
     if (isApproveError) {
       const message = parseContractError(approveError);
+      // mark failed in tx hook
+      approveTx.markFailed?.(approveError instanceof Error ? approveError : new Error(message));
       setState(prev => ({
         ...prev,
         isApproving: false,
@@ -336,6 +338,8 @@ export function useTokenTransfer(): UseTokenTransferReturn {
   useEffect(() => {
     if (isTransferError) {
       const message = parseContractError(transferError);
+      // mark failed in tx hook
+      transferTx.markFailed?.(transferError instanceof Error ? transferError : new Error(message));
       setState(prev => ({
         ...prev,
         isTransferring: false,
@@ -349,6 +353,11 @@ export function useTokenTransfer(): UseTokenTransferReturn {
   // Handle successful approval
   useEffect(() => {
     if (isApproveSuccess) {
+      // update tx hook with submitted hash and mark success
+      if (approveData) {
+        approveTx.updateSubmitted?.(approveData as any, address as any);
+      }
+      approveTx.markSuccess?.();
 setState(prev => ({
         ...prev,
         isApproving: false,
@@ -362,6 +371,11 @@ setState(prev => ({
   // Handle successful transfer
   useEffect(() => {
     if (isTransferSuccess) {
+      // update tx hook with submitted hash and mark success
+      if (transferData) {
+        transferTx.updateSubmitted?.(transferData as any, address as any);
+      }
+      transferTx.markSuccess?.();
 setState(prev => ({
         ...prev,
         isTransferring: false,
@@ -376,6 +390,8 @@ setState(prev => ({
     transfer,
     approve,
     state,
+    approveTx,
+    transferTx,
     reset,
   };
 }
