@@ -71,3 +71,40 @@ export function handleAnswerSubmitted(event: AnswerSubmittedEvent): void {
   stats.totalRewardsDistributed = stats.totalRewardsDistributed.plus(event.params.reward);
   stats.save();
 }
+
+function getOrCreatePlayer(address: Bytes, timestamp: BigInt): Player {
+  let id = address.toHexString();
+  let player = Player.load(id);
+
+  if (player == null) {
+    player = new Player(id);
+    player.address = address;
+    player.totalScore = BigInt.fromI32(0);
+    player.correctAnswers = BigInt.fromI32(0);
+    player.totalAnswers = BigInt.fromI32(0);
+    player.totalRewards = BigInt.fromI32(0);
+    player.firstPlayedAt = timestamp;
+    player.lastPlayedAt = timestamp;
+
+    let stats = getOrCreateGlobalStats();
+    stats.totalPlayers = stats.totalPlayers.plus(BigInt.fromI32(1));
+    stats.save();
+  }
+
+  return player;
+}
+
+function getOrCreateGlobalStats(): GlobalStats {
+  let stats = GlobalStats.load(GLOBAL_STATS_ID);
+
+  if (stats == null) {
+    stats = new GlobalStats(GLOBAL_STATS_ID);
+    stats.totalPlayers = BigInt.fromI32(0);
+    stats.totalAnswers = BigInt.fromI32(0);
+    stats.totalCorrectAnswers = BigInt.fromI32(0);
+    stats.totalRewardsDistributed = BigInt.fromI32(0);
+    stats.totalQuestions = BigInt.fromI32(0);
+  }
+
+  return stats;
+}
