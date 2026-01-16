@@ -8,6 +8,7 @@ import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export default function FaucetPage() {
   const { address } = useAccount();
+  const { setLoading, clearLoading } = useLoading({ component: 'faucet-page' });
   const { 
     claim, 
     claimIsLoading, 
@@ -35,7 +36,10 @@ export default function FaucetPage() {
 
   const handleClaim = async () => {
     setError(null);
+    setLoading(true, 'Claiming cUSD tokens...', 25);
+    
     try {
+      setLoading(true, 'Processing transaction...', 50);
       await claim?.();
       trackEvent(ANALYTICS_EVENTS.FAUCET_USED, {
         address: address,
@@ -91,23 +95,27 @@ export default function FaucetPage() {
               </div>
             </div>
             
-            <button
-              onClick={handleClaim}
-              disabled={!address || claimIsLoading || isClaimed}
-              className={`w-full py-3 px-4 rounded-md font-medium text-white ${
-                !address || claimIsLoading || isClaimed
-                  ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-green-600 hover:bg-green-700'
-              }`}
+            <TokenTransferErrorBoundary
+              tokenSymbol="cUSD"
+              amount={claimAmount.data ? formatAmount(claimAmount.data) : '0'}
+              onRetry={() => handleClaim()}
             >
-              {!address 
-                ? 'Connect Wallet to Claim' 
-                : claimIsLoading 
-                  ? 'Claiming...' 
+              <LoadingButton
+                onClick={handleClaim}
+                disabled={!address || isClaimed}
+                isLoading={claimIsLoading}
+                loadingText="Claiming..."
+                variant="secondary"
+                size="lg"
+                className="w-full bg-green-600 hover:bg-green-700"
+              >
+                {!address 
+                  ? 'Connect Wallet to Claim' 
                   : isClaimed 
                     ? 'Claimed!'
                     : 'Claim cUSD'}
-            </button>
+              </LoadingButton>
+            </TokenTransferErrorBoundary>
             
             {error && (
               <div className="mt-4 text-red-400 text-sm">

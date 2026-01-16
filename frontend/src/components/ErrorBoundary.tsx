@@ -5,23 +5,40 @@ import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
-  fallback?: ReactNode;
+  fallback?: (error: Error, errorInfo: ErrorInfo, reset: () => void) => ReactNode;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  level?: 'page' | 'section' | 'component';
+  name?: string;
+  enableLogging?: boolean;
+  showDetails?: boolean;
+  enableAutoRecovery?: boolean;
 }
 
 interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
+  errorInfo: ErrorInfo | null;
+  errorCount: number;
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  private resetTimeout: NodeJS.Timeout | null = null;
+
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
+      errorCount: 0,
+    };
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    return {
+      hasError: true,
+      error,
+    };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -39,20 +56,17 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 bg-red-50 border-l-4 border-red-400 text-red-700">
-          <p className="font-bold">Something went wrong</p>
-          {this.state.error?.message && (
-            <p className="text-sm mt-1">{this.state.error.message}</p>
-          )}
-          <button
-            onClick={() => this.setState({ hasError: false, error: null })}
-            className="mt-2 px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200"
-          >
-            Try again
-          </button>
-        </div>
-      );
+      const { fallback } = this.props;
+
+      if (fallback) {
+        return fallback(
+          this.state.error!,
+          this.state.errorInfo!,
+          this.handleReset
+        );
+      }
+
+      return this.renderDefaultFallback();
     }
 
     return this.props.children;
