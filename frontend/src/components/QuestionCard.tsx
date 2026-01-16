@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Question } from '@/data/questions';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 interface QuestionCardProps {
   question: Question;
@@ -37,6 +38,15 @@ export default function QuestionCard({
     if (disabled || selectedIndex !== null) return;
     
     setSelectedIndex(index);
+    
+    // Track the answer distribution
+    trackEvent(ANALYTICS_EVENTS.QUESTION_ANSWERED, {
+      questionId: question.id,
+      category: question.category,
+      difficulty: question.difficulty,
+      answerIndex: index,
+      isCorrect: index === question.correctAnswer,
+    });
     
     // Add slight delay for visual feedback before calling onAnswer
     setTimeout(() => {
