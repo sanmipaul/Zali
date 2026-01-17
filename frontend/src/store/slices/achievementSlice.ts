@@ -134,8 +134,19 @@ export const createAchievementSlice: StateCreator<
 
   checkAchievements: () => {
     const state = get();
-    const { achievements, globalStats } = state;
-    const gameState = (state as any).playerStats; // Access game state
+    const gameState = (state as any).playerStats;
+    const globalStats = state.globalStats;
+
+    // Sync global stats from game state
+    if (gameState) {
+      state.updateGlobalStats({
+        totalAnswers: gameState.totalQuestions,
+        totalCorrectAnswers: gameState.correctAnswers,
+        highestStreak: gameState.highestStreak,
+      });
+    }
+
+    const achievements = state.achievements;
 
     // First Answer
     if (globalStats.totalAnswers >= 1 && !achievements.find(a => a.id === 'first-answer')?.isUnlocked) {
