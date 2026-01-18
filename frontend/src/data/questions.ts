@@ -213,6 +213,96 @@ export const questions: Question[] = [
     explanation: "Impermanent loss occurs when providing liquidity to AMMs and token prices change, potentially leading to losses compared to holding tokens.",
     category: "DeFi",
     difficulty: "Hard"
+  },
+  {
+    id: 21,
+    question: "What is a smart contract?",
+    options: ["A legal contract", "Self-executing code on blockchain", "A contract with AI", "A smart phone app"],
+    correctAnswer: 1,
+    explanation: "Smart contracts are programs stored on blockchain that automatically execute when predetermined conditions are met.",
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 22,
+    question: "What is staking?",
+    options: ["Growing plants", "Locking tokens to support network and earn rewards", "Trading stocks", "Mining crypto"],
+    correctAnswer: 1,
+    explanation: "Staking involves locking cryptocurrency in a wallet to support blockchain operations and earn rewards.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 23,
+    question: "What is a blockchain oracle?",
+    options: ["A fortune teller", "A service that provides external data to smart contracts", "A mining tool", "A wallet type"],
+    correctAnswer: 1,
+    explanation: "Oracles are services that feed external data (like price feeds) to smart contracts on blockchain.",
+    category: "Web3",
+    difficulty: "Medium"
+  },
+  {
+    id: 24,
+    question: "What is gas in Ethereum?",
+    options: ["Fuel for cars", "Fee paid for transactions and smart contract execution", "A token", "A mining reward"],
+    correctAnswer: 1,
+    explanation: "Gas is the fee required to execute transactions and smart contracts on Ethereum network.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 25,
+    question: "What is a whitepaper in crypto?",
+    options: ["A marketing document", "Technical document explaining a project", "Legal document", "Financial report"],
+    correctAnswer: 1,
+    explanation: "A whitepaper is a detailed technical document that explains a cryptocurrency project, its technology, and goals.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 26,
+    question: "What is a rug pull?",
+    options: ["A yoga move", "When developers abandon a project and take investor funds", "A trading strategy", "A wallet hack"],
+    correctAnswer: 1,
+    explanation: "A rug pull occurs when project developers suddenly remove liquidity or abandon a project, leaving investors with worthless tokens.",
+    category: "Web3",
+    difficulty: "Medium"
+  },
+  {
+    id: 27,
+    question: "What is a DEX?",
+    options: ["Digital Exchange", "Decentralized Exchange", "Direct Exchange", "Distributed Exchange"],
+    correctAnswer: 1,
+    explanation: "DEX stands for Decentralized Exchange, a platform for trading cryptocurrencies without a central authority.",
+    category: "DeFi",
+    difficulty: "Easy"
+  },
+  {
+    id: 28,
+    question: "What is the main benefit of NFTs?",
+    options: ["They are cheap", "They provide provable ownership and scarcity", "They are easy to copy", "They are centralized"],
+    correctAnswer: 1,
+    explanation: "NFTs provide cryptographic proof of ownership and uniqueness for digital assets.",
+    category: "NFTs",
+    difficulty: "Easy"
+  },
+  {
+    id: 29,
+    question: "What is a governance token?",
+    options: ["For buying goods", "For voting on protocol changes", "For staking only", "For trading"],
+    correctAnswer: 1,
+    explanation: "Governance tokens allow holders to vote on proposals and changes to the protocol they govern.",
+    category: "DAOs",
+    difficulty: "Medium"
+  },
+  {
+    id: 30,
+    question: "What is a flash loan?",
+    options: ["A quick personal loan", "Uncollateralized loan that must be repaid in one transaction", "A loan from a bank", "A loan with flash storage"],
+    correctAnswer: 1,
+    explanation: "Flash loans allow borrowing without collateral as long as the loan is repaid within the same transaction.",
+    category: "DeFi",
+    difficulty: "Hard"
   }
 ];
 
