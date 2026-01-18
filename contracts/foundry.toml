@@ -20,4 +20,9 @@ base = "https://mainnet.base.org"
 [etherscan]
 base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
 
+# Enable VRF testing for TriviaGameV2
+[fuzz]
+runs = 1000
+max_test_rejects = 1000000
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
