@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { motion } from 'framer-motion';
-import { useLeaderboard } from '@/hooks/useContract';
+import { useLeaderboard } from '@/hooks/useGameQueries';
 import { LeaderboardSkeleton, StatsCardSkeleton } from '@/components/skeletons';
 
 export default function LeaderboardPage() {
