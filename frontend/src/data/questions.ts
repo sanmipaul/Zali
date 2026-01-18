@@ -9,8 +9,8 @@ export interface Question {
   options: string[];
   correctAnswer: number;
   explanation: string;
-  category: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  category: 'Celo' | 'DeFi' | 'Web3' | 'GeneralCrypto' | 'NFTs' | 'DAOs';
+  difficulty: 'Easy' | 'Medium' | 'Hard';
 }
 
 export const questions: Question[] = [
@@ -121,8 +121,98 @@ export const questions: Question[] = [
     options: ["Share your private key", "Verify the URL and reputation", "Send test funds first", "Download random software"],
     correctAnswer: 1,
     explanation: "Always verify the URL and check the dApp's reputation before connecting your wallet to avoid scams.",
-    category: "Blockchain Security",
-    difficulty: "easy"
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 11,
+    question: "What is DeFi?",
+    options: ["Decentralized Finance", "Digital Financial Instruments", "Direct Fund Investment", "Distributed File System"],
+    correctAnswer: 0,
+    explanation: "DeFi stands for Decentralized Finance, which refers to financial services built on blockchain networks without traditional intermediaries.",
+    category: "DeFi",
+    difficulty: "Easy"
+  },
+  {
+    id: 12,
+    question: "What is a liquidity pool in DeFi?",
+    options: ["A swimming pool for crypto", "A pool of tokens locked in a smart contract", "A pool of miners", "A pool of wallets"],
+    correctAnswer: 1,
+    explanation: "Liquidity pools are pools of tokens locked in smart contracts that enable decentralized trading and lending.",
+    category: "DeFi",
+    difficulty: "Medium"
+  },
+  {
+    id: 13,
+    question: "What is an NFT?",
+    options: ["Non-Fungible Token", "New Financial Tool", "Network File Transfer", "Non-Financial Transaction"],
+    correctAnswer: 0,
+    explanation: "NFT stands for Non-Fungible Token, a unique digital asset that represents ownership of a specific item or piece of content.",
+    category: "NFTs",
+    difficulty: "Easy"
+  },
+  {
+    id: 14,
+    question: "What blockchain is Ethereum built on?",
+    options: ["Bitcoin", "Its own blockchain", "Celo", "Solana"],
+    correctAnswer: 1,
+    explanation: "Ethereum is a Layer 1 blockchain that introduced smart contracts and dApps.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 15,
+    question: "What is a DAO?",
+    options: ["Decentralized Autonomous Organization", "Digital Asset Operator", "Direct Access Online", "Distributed Application Object"],
+    correctAnswer: 0,
+    explanation: "A DAO is a Decentralized Autonomous Organization, an organization governed by smart contracts and community voting.",
+    category: "DAOs",
+    difficulty: "Medium"
+  },
+  {
+    id: 16,
+    question: "What is yield farming?",
+    options: ["Growing crops with crypto", "Earning rewards by providing liquidity", "Mining new coins", "Trading stocks"],
+    correctAnswer: 1,
+    explanation: "Yield farming involves providing liquidity to DeFi protocols to earn rewards and interest.",
+    category: "DeFi",
+    difficulty: "Medium"
+  },
+  {
+    id: 17,
+    question: "What makes NFTs unique?",
+    options: ["They are interchangeable", "Each has unique metadata", "They are always cheap", "They can't be traded"],
+    correctAnswer: 1,
+    explanation: "NFTs are non-fungible, meaning each token has unique characteristics and cannot be exchanged on a 1:1 basis.",
+    category: "NFTs",
+    difficulty: "Easy"
+  },
+  {
+    id: 18,
+    question: "What is Web3?",
+    options: ["The next version of the internet", "A programming language", "A cryptocurrency", "A social media platform"],
+    correctAnswer: 0,
+    explanation: "Web3 refers to the next evolution of the internet, focusing on decentralization, blockchain, and user ownership of data.",
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 19,
+    question: "What is governance in DAOs?",
+    options: ["Only for governments", "Community voting on decisions", "Centralized control", "No decision making"],
+    correctAnswer: 1,
+    explanation: "DAO governance involves token holders voting on proposals and decisions affecting the organization.",
+    category: "DAOs",
+    difficulty: "Medium"
+  },
+  {
+    id: 20,
+    question: "What is impermanent loss?",
+    options: ["Permanent loss of funds", "Temporary loss due to price changes in liquidity pools", "Loss from hacking", "Loss from taxes"],
+    correctAnswer: 1,
+    explanation: "Impermanent loss occurs when providing liquidity to AMMs and token prices change, potentially leading to losses compared to holding tokens.",
+    category: "DeFi",
+    difficulty: "Hard"
   }
 ];
 
