@@ -16,7 +16,9 @@
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ci": "playwright test --reporter=github",
-    "test:visual": "playwright test visual-regression.spec.ts --update-snapshots"
+    "test:visual": "playwright test visual-regression.spec.ts --update-snapshots",
+    "typecheck": "tsc --noEmit",
+    "contract:check": "tsc --noEmit --project . --skipLibCheck"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
