@@ -39,7 +39,7 @@ export interface GameState {
   setCurrentQuestion: (question: Question | null) => void;
   startGame: () => void;
   endGame: () => void;
-  submitAnswer: (answer: string) => Promise<boolean>;
+  submitAnswer: (answer: string, timeTaken?: number) => Promise<boolean>;
   loadGameSession: (sessionId: string) => Promise<void>;
   updatePlayerStats: (stats: Partial<PlayerStats>) => void;
   resetGame: () => void;
@@ -87,12 +87,24 @@ export const createGameSlice: StateCreator<
       false,
       'game/startGame'
     );
+
+    // Update play date and check time-based achievements
+    (get() as any).updatePlayDate();
+    const now = new Date();
+    const hour = now.getHours();
+    const achievements = (get() as any).achievements;
+    if (hour < 8 && !achievements.find((a: any) => a.id === 'early-bird')?.isUnlocked) {
+      (get() as any).unlockAchievement('early-bird');
+    }
+    if (hour >= 22 && !achievements.find((a: any) => a.id === 'night-owl')?.isUnlocked) {
+      (get() as any).unlockAchievement('night-owl');
+    }
   },
 
   endGame: () => 
     set({ isGameActive: false }, false, 'game/endGame'),
 
-  submitAnswer: async (answer) => {
+  submitAnswer: async (answer, timeTaken) => {
     const { currentQuestion, playerStats } = get();
     if (!currentQuestion) return false;
 
@@ -132,6 +144,14 @@ export const createGameSlice: StateCreator<
       false,
       'game/submitAnswer'
     );
+
+    // Check speed demon achievement
+    if (timeTaken && timeTaken < 5000 && isCorrect && !(get() as any).achievements.find((a: any) => a.id === 'speed-demon')?.isUnlocked) {
+      (get() as any).unlockAchievement('speed-demon');
+    }
+
+    // Check for achievements after answer
+    (get() as any).checkAchievements();
 
     return isCorrect;
   },

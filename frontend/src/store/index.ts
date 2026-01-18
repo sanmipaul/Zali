@@ -5,8 +5,9 @@ import { immer } from 'zustand/middleware/immer';
 import { createAuthSlice, AuthSlice } from './slices/authSlice';
 import { createGameSlice, GameSlice } from './slices/gameSlice';
 import { createUISlice, UISlice } from './slices/uiSlice';
+import { createAchievementSlice, AchievementSlice } from './slices/achievementSlice';
 
-export type RootState = AuthSlice & GameSlice & UISlice;
+export type RootState = AuthSlice & GameSlice & UISlice & AchievementSlice;
 
 export const useStore = create<RootState>()(
   devtools(
@@ -15,6 +16,7 @@ export const useStore = create<RootState>()(
         ...createAuthSlice(...a),
         ...createGameSlice(...a),
         ...createUISlice(...a),
+        ...createAchievementSlice(...a),
       })),
       {
         name: 'zali-store',
@@ -27,6 +29,8 @@ export const useStore = create<RootState>()(
             theme: state.theme,
             notifications: state.notifications,
           },
+          achievements: state.achievements,
+          globalStats: state.globalStats,
         }),
       }
     )

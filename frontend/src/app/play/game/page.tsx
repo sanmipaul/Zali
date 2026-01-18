@@ -10,7 +10,7 @@ import { calculateScore } from '@/data/questions';
 import { useAccount } from 'wagmi';
 import toast from 'react-hot-toast';
 import { useGameSession, useGameQuestions } from '@/hooks/useContract';
-import { LoadingCard, LoadingSpinner, useLoading } from '@/components/loading';
+import { useStore } from '@/store';
 
 interface Question {
   id: number;
@@ -48,6 +48,9 @@ export default function GamePage() {
   // Use game questions hook to get questions from contract
   const { questions, isLoading: isLoadingQuestions } = useGameQuestions(sessionId);
 
+  // Store hooks for achievements
+  const { startGame: storeStartGame, submitAnswer: storeSubmitAnswer } = useStore(state => ({ startGame: state.startGame, submitAnswer: state.submitAnswer }));
+
   // Redirect if not connected
   useEffect(() => {
     if (!isConnected) {
@@ -61,9 +64,10 @@ export default function GamePage() {
     if (isConnected && !gameStarted) {
       setGameStarted(true);
       setQuestionStartTime(Date.now());
+      storeStartGame();
       toast.success('Game started! Good luck! 🎮');
     }
-  }, [isConnected, gameStarted]);
+  }, [isConnected, gameStarted, storeStartGame]);
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
@@ -71,6 +75,10 @@ export default function GamePage() {
   const handleAnswer = (answerIndex: number) => {
     // Calculate time spent on this question
     const timeForQuestion = Math.floor((Date.now() - questionStartTime) / 1000);
+    
+    // Submit to store for achievements
+    const answerText = currentQuestion.options[answerIndex];
+    storeSubmitAnswer(answerText, timeForQuestion * 1000);
     
     // Save answer and time
     setAnswers([...answers, answerIndex]);

@@ -113,7 +113,8 @@ export default function Navbar({ className = '', 'data-testid': testId }: Navbar
     { name: 'Play', href: '/play' },
     { name: 'Rewards', href: '/rewards' },
     { name: 'Leaderboard', href: '/leaderboard' },
-  ] as const;
+    { name: 'Achievements', href: '/achievements' },
+  ];
 
   return (
     <nav className={`border-b border-gray-200 bg-white shadow-sm ${className}`} data-testid={testId}>
