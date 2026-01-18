@@ -303,6 +303,186 @@ export const questions: Question[] = [
     explanation: "Flash loans allow borrowing without collateral as long as the loan is repaid within the same transaction.",
     category: "DeFi",
     difficulty: "Hard"
+  },
+  {
+    id: 31,
+    question: "What is Celo's approach to identity?",
+    options: ["Username only", "Phone number mapping", "Email verification", "Government ID"],
+    correctAnswer: 1,
+    explanation: "Celo uses phone numbers as identifiers, making crypto accessible by mapping phone numbers to wallet addresses.",
+    category: "Celo",
+    difficulty: "Medium"
+  },
+  {
+    id: 32,
+    question: "What is the Celo Reserve?",
+    options: ["A bank", "Collateral backing stablecoins", "A mining pool", "A wallet"],
+    correctAnswer: 1,
+    explanation: "The Celo Reserve holds assets that back the cUSD and cEUR stablecoins, ensuring their peg to fiat currencies.",
+    category: "Celo",
+    difficulty: "Medium"
+  },
+  {
+    id: 33,
+    question: "What is Proof of Stake?",
+    options: ["Mining with computers", "Validators stake tokens to secure network", "A type of wallet", "A trading strategy"],
+    correctAnswer: 1,
+    explanation: "Proof of Stake is a consensus mechanism where validators stake cryptocurrency to participate in block validation.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 34,
+    question: "What is a dApp?",
+    options: ["A mobile app", "Decentralized Application", "A desktop app", "A web browser"],
+    correctAnswer: 1,
+    explanation: "dApps are applications that run on decentralized networks like blockchain, not controlled by any single entity.",
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 35,
+    question: "What is a token bridge?",
+    options: ["A physical bridge", "Technology to move tokens between blockchains", "A wallet connector", "A trading bot"],
+    correctAnswer: 1,
+    explanation: "Token bridges enable transferring assets between different blockchain networks.",
+    category: "Web3",
+    difficulty: "Medium"
+  },
+  {
+    id: 36,
+    question: "What is a whale in crypto?",
+    options: ["A large fish", "An investor holding large amounts of cryptocurrency", "A mining machine", "A type of NFT"],
+    correctAnswer: 1,
+    explanation: "A whale is a term for an individual or entity holding a large amount of a particular cryptocurrency.",
+    category: "GeneralCrypto",
+    difficulty: "Easy"
+  },
+  {
+    id: 37,
+    question: "What is a cold wallet?",
+    options: ["A wallet that gets cold", "Offline wallet for secure storage", "A wallet for winter", "A cheap wallet"],
+    correctAnswer: 1,
+    explanation: "Cold wallets are offline storage solutions that keep private keys away from internet-connected devices.",
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 38,
+    question: "What is a liquidity provider?",
+    options: ["Someone who provides water", "User who adds tokens to liquidity pools", "A bank", "A miner"],
+    correctAnswer: 1,
+    explanation: "Liquidity providers add tokens to pools in AMMs to facilitate trading and earn fees.",
+    category: "DeFi",
+    difficulty: "Medium"
+  },
+  {
+    id: 39,
+    question: "What is minting an NFT?",
+    options: ["Creating a physical coin", "Creating a new NFT on blockchain", "Buying an NFT", "Trading an NFT"],
+    correctAnswer: 1,
+    explanation: "Minting is the process of creating a new NFT and recording it on the blockchain.",
+    category: "NFTs",
+    difficulty: "Easy"
+  },
+  {
+    id: 40,
+    question: "What is a proposal in DAO governance?",
+    options: ["A business plan", "A suggestion for changes voted on by token holders", "A legal document", "A marketing plan"],
+    correctAnswer: 1,
+    explanation: "Proposals in DAOs are suggestions for changes or actions that community members vote on.",
+    category: "DAOs",
+    difficulty: "Medium"
+  },
+  {
+    id: 41,
+    question: "What is slippage in trading?",
+    options: ["A fall", "Difference between expected and actual trade price", "A trading fee", "A wallet error"],
+    correctAnswer: 1,
+    explanation: "Slippage is the difference between the expected price of a trade and the price at which it executes.",
+    category: "DeFi",
+    difficulty: "Medium"
+  },
+  {
+    id: 42,
+    question: "What is a seed phrase?",
+    options: ["Plant seeds", "Series of words to recover wallet", "A password", "A username"],
+    correctAnswer: 1,
+    explanation: "A seed phrase is a set of words that can regenerate a wallet's private keys.",
+    category: "Web3",
+    difficulty: "Easy"
+  },
+  {
+    id: 43,
+    question: "What is a validator?",
+    options: ["Someone who checks documents", "Node that validates transactions and creates blocks", "A trader", "A wallet user"],
+    correctAnswer: 1,
+    explanation: "Validators are nodes in proof-of-stake networks that validate transactions and create new blocks.",
+    category: "GeneralCrypto",
+    difficulty: "Medium"
+  },
+  {
+    id: 44,
+    question: "What is a smart contract audit?",
+    options: ["Checking code for bugs", "Reviewing contract for security vulnerabilities", "Counting money", "Legal review"],
+    correctAnswer: 1,
+    explanation: "Smart contract audits involve reviewing code for security issues and vulnerabilities.",
+    category: "Web3",
+    difficulty: "Medium"
+  },
+  {
+    id: 45,
+    question: "What is a yield?",
+    options: ["Farm produce", "Return on investment from DeFi", "A type of loan", "A trading fee"],
+    correctAnswer: 1,
+    explanation: "Yield refers to the returns earned from providing liquidity or staking in DeFi protocols.",
+    category: "DeFi",
+    difficulty: "Easy"
+  },
+  {
+    id: 46,
+    question: "What is metadata in NFTs?",
+    options: ["Secret data", "Information describing the NFT", "Blockchain data", "Transaction data"],
+    correctAnswer: 1,
+    explanation: "Metadata contains information about the NFT, such as name, description, image URL, and attributes.",
+    category: "NFTs",
+    difficulty: "Medium"
+  },
+  {
+    id: 47,
+    question: "What is quadratic voting?",
+    options: ["Voting with equations", "Voting system where cost increases with votes", "Simple majority voting", "Random voting"],
+    correctAnswer: 1,
+    explanation: "Quadratic voting is a system where each additional vote costs more, preventing whales from dominating decisions.",
+    category: "DAOs",
+    difficulty: "Hard"
+  },
+  {
+    id: 48,
+    question: "What is a layer 2 solution?",
+    options: ["Second blockchain layer", "Scaling solution built on layer 1", "A wallet", "A dApp"],
+    correctAnswer: 1,
+    explanation: "Layer 2 solutions are technologies built on top of layer 1 blockchains to improve scalability.",
+    category: "GeneralCrypto",
+    difficulty: "Medium"
+  },
+  {
+    id: 49,
+    question: "What is a gasless transaction?",
+    options: ["Free transaction", "Transaction where someone else pays gas", "No gas needed", "Cheap transaction"],
+    correctAnswer: 1,
+    explanation: "Gasless transactions allow users to interact with dApps without paying gas fees directly.",
+    category: "Web3",
+    difficulty: "Medium"
+  },
+  {
+    id: 50,
+    question: "What is composability in DeFi?",
+    options: ["Musical composition", "Ability of protocols to work together", "Code complexity", "User interface"],
+    correctAnswer: 1,
+    explanation: "Composability refers to how DeFi protocols can be combined to create new financial products.",
+    category: "DeFi",
+    difficulty: "Hard"
   }
 ];
 
