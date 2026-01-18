@@ -655,16 +655,16 @@ export function useGameQuestions(sessionId?: number) {
       if (!sessionData) {
         // Fallback to hardcoded questions if no session data
         const fallbackQuestions = [
-          { question: "What is Celo?", options: ["A mobile-first blockchain platform", "A cryptocurrency exchange", "A digital wallet app", "A mining hardware company"], correctAnswer: 0, difficulty: "easy", category: "Basics" },
-          { question: "What is cUSD?", options: ["Celo Dollar stablecoin", "Canadian Dollar", "Crypto USD token", "Central USD"], correctAnswer: 0, difficulty: "easy", category: "Basics" },
-          { question: "What consensus mechanism does Celo use?", options: ["Proof of Work", "Proof of Stake", "Delegated Proof of Stake", "Proof of Authority"], correctAnswer: 1, difficulty: "medium", category: "Technical" },
-          { question: "What is MiniPay?", options: ["A payment processor", "A mobile wallet for Celo", "A cryptocurrency exchange", "A DeFi protocol"], correctAnswer: 1, difficulty: "easy", category: "Ecosystem" },
-          { question: "What is the native token of Celo?", options: ["CELO", "CUSD", "CEL", "CLO"], correctAnswer: 0, difficulty: "easy", category: "Basics" },
-          { question: "What makes Celo mobile-first?", options: ["Phone number addresses", "Low fees", "Fast transactions", "All of the above"], correctAnswer: 3, difficulty: "medium", category: "Features" },
-          { question: "What is Valora?", options: ["A DeFi protocol", "A Celo mobile wallet", "A stablecoin", "A consensus algorithm"], correctAnswer: 1, difficulty: "easy", category: "Ecosystem" },
-          { question: "What is the Celo Reserve?", options: ["A mining pool", "A staking mechanism", "Collateral backing stablecoins", "A governance token"], correctAnswer: 2, difficulty: "hard", category: "Technical" },
-          { question: "What programming language are Celo smart contracts written in?", options: ["JavaScript", "Python", "Solidity", "Rust"], correctAnswer: 2, difficulty: "medium", category: "Technical" },
-          { question: "What is the purpose of CELO tokens?", options: ["Only for payments", "Governance and staking", "Mining rewards", "Exchange fees"], correctAnswer: 1, difficulty: "medium", category: "Tokenomics" }
+          { question: "What is Celo?", options: ["A mobile-first blockchain platform", "A cryptocurrency exchange", "A digital wallet app", "A mining hardware company"], correctAnswer: 0, difficulty: "Easy", category: "Celo" },
+          { question: "What is cUSD?", options: ["Celo Dollar stablecoin", "Canadian Dollar", "Crypto USD token", "Central USD"], correctAnswer: 0, difficulty: "Easy", category: "Celo" },
+          { question: "What consensus mechanism does Celo use?", options: ["Proof of Work", "Proof of Stake", "Delegated Proof of Stake", "Proof of Authority"], correctAnswer: 1, difficulty: "Medium", category: "Celo" },
+          { question: "What is MiniPay?", options: ["A payment processor", "A mobile wallet for Celo", "A cryptocurrency exchange", "A DeFi protocol"], correctAnswer: 1, difficulty: "Easy", category: "Celo" },
+          { question: "What is the native token of Celo?", options: ["CELO", "CUSD", "CEL", "CLO"], correctAnswer: 0, difficulty: "Easy", category: "Celo" },
+          { question: "What makes Celo mobile-first?", options: ["Phone number addresses", "Low fees", "Fast transactions", "All of the above"], correctAnswer: 3, difficulty: "Medium", category: "Celo" },
+          { question: "What is Valora?", options: ["A DeFi protocol", "A Celo mobile wallet", "A stablecoin", "A consensus algorithm"], correctAnswer: 1, difficulty: "Easy", category: "Celo" },
+          { question: "What is the Celo Reserve?", options: ["A mining pool", "A staking mechanism", "Collateral backing stablecoins", "A governance token"], correctAnswer: 2, difficulty: "Hard", category: "Celo" },
+          { question: "What programming language are Celo smart contracts written in?", options: ["JavaScript", "Python", "Solidity", "Rust"], correctAnswer: 2, difficulty: "Medium", category: "Celo" },
+          { question: "What is the purpose of CELO tokens?", options: ["Only for payments", "Governance and staking", "Mining rewards", "Exchange fees"], correctAnswer: 1, difficulty: "Medium", category: "Celo" }
         ];
         setQuestions(fallbackQuestions);
         setIsLoading(false);
