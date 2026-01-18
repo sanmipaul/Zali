@@ -200,8 +200,10 @@ export const createAchievementSlice: StateCreator<
       state.unlockAchievement('trivia-master');
     }
 
-    // Streak Champion - need to implement daily streak logic
-    // For now, placeholder
+    // Streak Champion
+    if (globalStats.dailyStreak >= 7 && !achievements.find(a => a.id === 'streak-champion')?.isUnlocked) {
+      state.unlockAchievement('streak-champion');
+    }
   },
 
   updatePlayDate: () => {
