@@ -145,6 +145,43 @@ graph TD
     W --> X[PointsHistory (User History)]
 ```
 
+## State Management
+
+```mermaid
+graph TD
+    subgraph "Zustand Store"
+        S[Root Store]
+        S --> A[Auth Slice]
+        S --> G[Game Slice]
+        S --> U[UI Slice]
+        A --> A1[user]
+        A --> A2[isAuthenticated]
+        G --> G1[currentQuestion]
+        G --> G2[score]
+        G --> G3[gameState]
+        U --> U1[theme]
+        U --> U2[notifications]
+        U --> U3[loading]
+    end
+    
+    subgraph "React Contexts"
+        C[AuthContext]
+        C --> C1[signIn/signOut]
+        C --> C2[isLoading]
+        C --> C3[error]
+        F[AutoFaucetContext]
+        F --> F1[faucetBalance]
+        F --> F2[claimStatus]
+    end
+    
+    subgraph "Persistence"
+        P[Zustand Persist]
+        P --> P1[auth.user]
+        P --> P2[ui.theme]
+        P --> P3[ui.notifications]
+    end
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
