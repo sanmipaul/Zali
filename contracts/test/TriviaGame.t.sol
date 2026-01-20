@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 import "../src/TriviaGame.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./MockERC20.sol";
 
 contract TriviaGameTest is Test {
     TriviaGame public triviaGame;
@@ -137,11 +137,5 @@ contract TriviaGameTest is Test {
         
         // Check game state
         assertEq(uint256(triviaGame.getGameState(1)), 3); // GameState.Cancelled
-    }
-}
-
-contract MockERC20 is ERC20 {
-    constructor() ERC20("Mock cUSD", "mcUSD") {
-        _mint(msg.sender, 1000000 * 10**18);
     }
 }
