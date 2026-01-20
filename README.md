@@ -307,6 +307,10 @@ forge test -vvv # Verbose output
 forge coverage  # Check test coverage
 ```
 
+### CI/CD
+
+Tests are run automatically on pushes and PRs via GitHub Actions. Ensure all tests pass before merging.
+
 ---
 
 # 🚀 **Deploy Contracts**
