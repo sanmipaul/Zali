@@ -240,6 +240,18 @@ mindmap
       draw.io
 ```
 
+## Keeping Diagrams Updated
+
+When making changes to the codebase, please update these diagrams accordingly:
+
+- **System Architecture**: Update when adding new services, layers, or external dependencies
+- **Data Flow**: Modify when user interaction flows change or new API endpoints are added
+- **Smart Contract Interactions**: Update when contract functions or logic change
+- **Component Hierarchy**: Reflect when new components are added or hierarchy changes
+- **State Management**: Update when new slices, contexts, or state properties are introduced
+
+Use Mermaid.js for consistency and ensure diagrams remain readable and accurate.
+
 ```mermaid
 graph TB
     subgraph "User Layer"
