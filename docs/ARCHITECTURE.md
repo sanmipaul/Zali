@@ -141,3 +141,34 @@ graph TD
     
     S --> AA[Skeletons<br/>skeletons/]
 ```
+
+## State Management
+
+```mermaid
+graph TD
+    A[Zustand Store<br/>store/index.ts] --> B[Auth Slice<br/>authSlice.ts]
+    A --> C[Game Slice<br/>gameSlice.ts]
+    A --> D[UI Slice<br/>uiSlice.ts]
+    
+    B --> E[User Authentication State]
+    B --> F[Wallet Connection]
+    B --> G[User Profile]
+    
+    C --> H[Game State<br/>Current Game]
+    C --> I[Player Status]
+    C --> J[Questions & Answers]
+    C --> K[Rewards & Points]
+    
+    D --> L[UI State<br/>Loading States]
+    D --> M[Modal States]
+    D --> N[Error States]
+    
+    O[React Contexts] --> P[AuthContext.tsx<br/>Authentication Logic]
+    O --> Q[AutoFaucetContext.tsx<br/>Faucet Automation]
+    
+    R[Components] --> S[useStore Hooks<br/>Zustand Hooks]
+    R --> T[useContext Hooks<br/>React Contexts]
+    
+    S --> A
+    T --> O
+```
