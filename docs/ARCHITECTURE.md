@@ -37,3 +37,35 @@ graph TB
     B --> I
     B --> J
 ```
+
+## Data Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant W as Wallet
+    participant B as Blockchain
+    participant C as Contract
+
+    U->>F: Click "Play Game"
+    F->>W: Request wallet connection
+    W->>F: Return wallet address
+    F->>F: Update user state
+    U->>F: Select game to join
+    F->>W: Request transaction signature (joinGame)
+    W->>B: Send signed transaction
+    B->>C: Execute joinGame function
+    C->>B: Emit events
+    B->>F: Transaction confirmed
+    F->>B: Query game state
+    B->>F: Return updated state
+    F->>U: Display game UI
+    U->>F: Answer questions
+    F->>W: Submit answers (if applicable)
+    W->>B: Send transaction
+    B->>C: Process answers/rewards
+    C->>B: Distribute rewards
+    B->>F: Confirmation
+    F->>U: Show results
+```
