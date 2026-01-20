@@ -1,0 +1,238 @@
+# Qodo Configuration for Zali Frontend
+# This configuration file defines how Qodo interacts with your Next.js + Web3 project
+
+# Project Information
+project:
+  name: "Zali Frontend"
+  description: "Next.js frontend application with Celo and Web3 integration"
+  type: "nextjs"
+  language: "typescript"
+
+# Code Review Settings
+code_review:
+  # Enable automatic code review on commits
+  auto_review: true
+  
+  # Review focus areas
+  focus:
+    - security
+    - performance
+    - best_practices
+    - web3_patterns
+    - react_patterns
+    
+  # Ignore patterns for code review
+  ignore:
+    - "node_modules/**"
+    - ".next/**"
+    - "dist/**"
+    - "build/**"
+    - "*.min.js"
+    - "*.map"
+    - "package-lock.json"
+
+# Testing Configuration
+testing:
+  # Test framework (can be updated when tests are added)
+  framework: "jest"
+  
+  # Test coverage thresholds
+  coverage:
+    minimum: 70
+    
+  # Test file patterns
+  patterns:
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/*.spec.ts"
+    - "**/*.spec.tsx"
+
+# Documentation Settings
+documentation:
+  # Auto-generate documentation
+  auto_generate: true
+  
+  # Documentation style
+  style: "jsdoc"
+  
+  # Include in documentation
+  include:
+    - "src/**/*.ts"
+    - "src/**/*.tsx"
+    - "README.md"
+    
+  # Exclude from documentation
+  exclude:
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/*.spec.ts"
+    - "**/*.spec.tsx"
+
+# Code Quality Settings
+quality:
+  # Enable linting
+  linting:
+    enabled: true
+    config: "eslint.config.mjs"
+    
+  # Enable type checking
+  type_checking:
+    enabled: true
+    config: "tsconfig.json"
+    
+  # Code complexity thresholds
+  complexity:
+    max_function_length: 50
+    max_file_length: 500
+    max_cyclomatic_complexity: 10
+
+# Web3 Specific Settings
+web3:
+  # Smart contract interaction patterns
+  contract_patterns:
+    - "src/config/**"
+    - "src/hooks/**"
+    
+  # Security checks for Web3
+  security:
+    - check_private_key_exposure
+    - validate_contract_addresses
+    - check_transaction_signing
+    - validate_rpc_endpoints
+
+# Build and Deployment
+build:
+  # Build command
+  command: "npm run build"
+  
+  # Output directory
+  output: ".next"
+  
+  # Environment files
+  env_files:
+    - ".env.local"
+    - ".env.production"
+
+# Git Integration
+git:
+  # Branch protection
+  protected_branches:
+    - "main"
+    - "master"
+    - "production"
+    
+  # Commit message format
+  commit_format:
+    enabled: true
+    pattern: "^(feat|fix|docs|style|refactor|test|chore)(\\(.+\\))?: .{1,100}"
+
+# AI Assistant Settings
+ai:
+  # Context awareness
+  context:
+    - "This is a Next.js 16 application"
+    - "Uses TypeScript for type safety"
+    - "Integrates with Celo blockchain via @celo/contractkit"
+    - "Uses Wagmi and RainbowKit for wallet connections"
+    - "Uses Tailwind CSS for styling"
+    - "Uses Framer Motion for animations"
+    
+  # Coding standards
+  standards:
+    - "Follow React best practices and hooks rules"
+    - "Use TypeScript strict mode"
+    - "Implement proper error handling for Web3 interactions"
+    - "Use async/await for asynchronous operations"
+    - "Follow Next.js App Router conventions"
+    - "Ensure responsive design with Tailwind"
+    - "Handle wallet connection states properly"
+    - "Validate user inputs and transaction parameters"
+
+# File Patterns
+files:
+  # Source files
+  source:
+    - "src/**/*.ts"
+    - "src/**/*.tsx"
+    
+  # Configuration files
+  config:
+    - "*.config.*"
+    - "tsconfig.json"
+    - "package.json"
+    
+  # Ignore patterns
+  ignore:
+    - "node_modules/**"
+    - ".next/**"
+    - "dist/**"
+    - "build/**"
+    - "coverage/**"
+    - "*.log"
+    - ".env*"
+
+# Performance Monitoring
+performance:
+  # Bundle size limits (in KB)
+  bundle_size:
+    max_initial: 500
+    max_total: 2000
+    
+  # Performance budgets
+  budgets:
+    - metric: "first-contentful-paint"
+      max: 2000
+    - metric: "time-to-interactive"
+      max: 5000
+
+# Security Settings
+security:
+  # Dependency scanning
+  dependency_scan:
+    enabled: true
+    severity: "medium"
+    
+  # Secret detection
+  secret_detection:
+    enabled: true
+    patterns:
+      - "private.*key"
+      - "secret"
+      - "password"
+      - "api.*key"
+      - "mnemonic"
+      
+  # Security headers check
+  headers:
+    - "Content-Security-Policy"
+    - "X-Frame-Options"
+    - "X-Content-Type-Options"
+
+# Notifications
+notifications:
+  # Enable notifications
+  enabled: true
+  
+  # Notification channels
+  channels:
+    - type: "console"
+      level: "info"
+
+# Custom Rules
+custom_rules:
+  - name: "No console.log in production"
+    pattern: "console\\.log"
+    severity: "warning"
+    exclude:
+      - "**/*.test.ts"
+      - "**/*.test.tsx"
+      
+  - name: "Use environment variables for RPC URLs"
+    pattern: "https?://.*rpc.*"
+    severity: "warning"
+    message: "Consider using environment variables for RPC URLs"
+    
+  - name: "Proper error handling in async functions"
+    pattern: "async.*=>.*{[^}]*(?!try)[^}]*await"
+    severity: "info"
+    message: "Consider adding try-catch blocks for async operations"

@@ -1,0 +1,28 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "src/SimpleTriviaGame.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\nimport \"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\";\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\n\ncontract SimpleTriviaGame is Ownable {\n    using SafeERC20 for IERC20;\n    \n    // Custom Errors\n    error InvalidTokenAddress();\n    error InvalidOptions();\n    error InvalidCorrectOption();\n    error QuestionNotActive();\n    error InvalidOption();\n    error InsufficientBalance();\n    IERC20 public immutable usdcToken;\n    uint256 public questionId;\n    \n    struct Question {\n        string questionText;\n        string[] options;\n        uint256 correctOption;\n        uint256 rewardAmount;\n        bool isActive;\n    }\n    \n    mapping(uint256 => Question) public questions;\n    mapping(address => uint256) public userScores;\n    \n    event QuestionAdded(uint256 indexed questionId, string questionText, uint256 reward);\n    event AnswerSubmitted(address indexed user, uint256 questionId, bool isCorrect, uint256 reward);\n    \n    constructor(address _usdcToken) Ownable(msg.sender) {\n        if (_usdcToken == address(0)) revert InvalidTokenAddress();\n        usdcToken = IERC20(_usdcToken);\n    }\n    \n    function addQuestion(\n        string memory _questionText,\n        string[] memory _options,\n        uint256 _correctOption,\n        uint256 _rewardAmount\n    ) external onlyOwner {\n        if (_options.length <= 1) revert InvalidOptions();\n        if (_correctOption >= _options.length) revert InvalidCorrectOption();\n        \n        questionId++;\n        questions[questionId] = Question({\n            questionText: _questionText,\n            options: _options,\n            correctOption: _correctOption,\n            rewardAmount: _rewardAmount,\n            isActive: true\n        });\n        \n        emit QuestionAdded(questionId, _questionText, _rewardAmount);\n    }\n    \n    function submitAnswer(uint256 _questionId, uint256 _selectedOption) external {\n        Question storage question = questions[_questionId];\n        if (!question.isActive) revert QuestionNotActive();\n        if (_selectedOption >= question.options.length) revert InvalidOption();\n        \n        bool isCorrect = (_selectedOption == question.correctOption);\n        \n        if (isCorrect) {\n            userScores[msg.sender]++;\n            if (question.rewardAmount > 0) {\n                usdcToken.safeTransfer(msg.sender, question.rewardAmount);\n            }\n        }\n        \n        emit AnswerSubmitted(msg.sender, _questionId, isCorrect, isCorrect ? question.rewardAmount : 0);\n    }\n    \n    function withdrawTokens(uint256 _amount) external onlyOwner {\n        if (usdcToken.balanceOf(address(this)) < _amount) revert InsufficientBalance();\n        usdcToken.safeTransfer(msg.sender, _amount);\n    }\n    \n    function getQuestion(uint256 _questionId) external view returns (\n        string memory questionText,\n        string[] memory options,\n        uint256 correctOption,\n        uint256 rewardAmount,\n        bool isActive\n    ) {\n        Question storage q = questions[_questionId];\n        return (q.questionText, q.options, q.correctOption, q.rewardAmount, q.isActive);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": true,
+    "outputSelection": {
+      "*": {
+        "*": [
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "devdoc",
+          "userdoc",
+          "metadata",
+          "abi"
+        ]
+      }
+    },
+    "libraries": {}
+  }
+}

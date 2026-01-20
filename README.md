@@ -1,0 +1,641 @@
+
+# **Zali – Web3 Trivia Game**
+
+A Web3 trivia game built on Base network.
+Players can play trivia rounds, answer questions, and earn real ETH rewards on-chain.
+
+---
+
+## 📱 **Overview**
+
+Zali is a fun, lightweight Web3 game designed to showcase:
+
+* **Seamless Web3 wallet integration**
+* **Fast L2 transactions on Base**
+* **Real ETH rewards**
+* **Smooth gameplay experience**
+* **Secure, simple blockchain architecture**
+
+Players can:
+
+1. Connect their Web3 wallet (MetaMask, Coinbase Wallet, etc.)
+2. Play **free trivia rounds** (no entry fee)
+3. Answer multiple choice trivia questions
+4. Earn USDC rewards paid automatically via smart contracts
+
+**🚧 Future Features (TriviaGameV2):**
+- Username registration and player profiles
+- Global leaderboard with rankings
+- Timed game sessions with speed bonuses
+- ETH rewards with weekly prize pools
+- Chainlink VRF for fair question randomization
+
+No staking. No long setup. Just **connect → play → earn**.
+
+---
+
+---
+
+# 🚀 **Live on Base Mainnet!**
+
+**🎉 DEPLOYED: December 14, 2024**
+
+### Production Contracts
+
+* **SimpleTriviaGame:** [`0x7409Cbcb6577164E96A9b474efD4C32B9e17d59d`](https://basescan.org/address/0x7409Cbcb6577164E96A9b474efD4C32B9e17d59d)
+  - ✅ **DEPLOYED & VERIFIED** on Base Mainnet
+  - ✅ **25 trivia questions** loaded
+  - ✅ **USDC rewards** (0.1 USDC per correct answer)
+  - ✅ **Basic gameplay** - answer questions, earn rewards
+* **USDC (Base Mainnet):** [`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`](https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+* **Network:** Base Mainnet (Chain ID: 8453)
+* **Compiler:** Solc v0.8.30
+* **Optimization:** 200 runs
+
+### Contract Features (Current: SimpleTriviaGame)
+
+**✅ Currently Available:**
+- Answer multiple choice trivia questions
+- Earn USDC rewards for correct answers
+- Owner can add new questions
+- Basic score tracking per wallet address
+
+**🚧 Planned Features (TriviaGameV2 Upgrade):**
+- Username registration and profiles
+- Global leaderboard with rankings
+- Chainlink VRF for random question selection
+- Game sessions with time limits and speed bonuses
+- ETH rewards with weekly prize pools
+- Advanced player statistics
+| **Reward per Answer** | 0.1 USDC |
+
+### Quick Links
+
+* 🔍 **[View on BaseScan](https://basescan.org/address/0x7409Cbcb6577164E96A9b474efD4C32B9e17d59d)**
+* 🎮 **Frontend:** (Deploying soon)
+* 📹 **Demo Video:** (Coming soon)
+
+---
+
+# 🧠 **Features**
+
+### 🌐 **Wallet Integration**
+
+* Works with **any Web3 wallet** (MetaMask, Coinbase Wallet, WalletConnect)
+* Instant balance updates
+* Fast and cheap Base L2 transactions
+
+### 💰 **Optional USDC Faucet**
+
+* Each player can receive **10 USDC** once (testnet only)
+* Enforced by smart contract
+* Secure against multiple claims
+
+### 🕹 **Trivia Gameplay**
+
+* 10 random questions per game session
+* Multiple-choice questions
+* 5-minute time limit
+* Responsive UI with smooth animations
+* Questions selected via Chainlink VRF for fairness
+
+### 🎁 **Reward Distribution**
+
+* **FREE to play** (no entry fee)
+* Earn **0.001 ETH per correct answer**
+* Earn **0.005 ETH bonus** for perfect score (10/10)
+* Earn up to **0.002 ETH speed bonus** for fast answers
+* **Max reward per game: 0.017 ETH**
+* Rewards distributed automatically via smart contract
+
+### 🏆 **Leaderboard**
+
+* Track top 100 players by total score
+* Username registration system
+* Weekly reward distribution for top 10 players
+* Real-time rank updates
+
+### 📱 **Built for All Devices**
+
+* Responsive design
+* Optimized for both desktop and mobile
+* Smooth animations with Framer Motion
+* Minimal steps to play
+
+---
+
+# 🏗 **Architecture**
+
+## High-Level Flow
+
+```
+Web3 Wallet → Register Username → Start Game → Answer Questions → Submit Answers → Claim ETH Rewards
+```
+
+## System Diagram
+
+```
++------------------+      +----------------------+     +----------------------+
+|  Frontend (Next) | <--> | SimpleTriviaGame.sol | <-> | USDC Token         |
+|  Frontend (Next) | <--> | TriviaGameV2.sol     | <-> | Chainlink VRF V2     | *(planned)*
++------------------+      +----------------------+     +----------------------+
+         |                          |
+         |                          |
+         v                          v
++------------------+      +------------------+ 
+|  Faucet.sol      |      | USDC Token       |
+|  (Optional)      |      | (Base Mainnet)   |
++------------------+      +------------------+
+```
+
+For detailed architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+---
+
+# 🧩 **Tech Stack**
+
+### **Smart Contracts**
+
+* Solidity 0.8.20
+* Foundry (Forge)
+* OpenZeppelin Contracts
+* Chainlink VRF V2
+* Base Mainnet
+* USDC (ERC20)
+
+### **Frontend**
+
+* Next.js 14 (App Router)
+* React 18
+* TypeScript
+* Wagmi v2 (React Hooks for Ethereum)
+* Viem (Ethereum utilities)
+* Reown AppKit (WalletConnect v2)
+* TailwindCSS
+* Framer Motion
+* React Hot Toast
+
+### **Backend**
+
+* On-chain only (no traditional backend)
+* Questions stored in smart contract
+* Chainlink VRF for randomness
+
+---
+
+# 📦 **Project Structure**
+
+```
+Zali/
+  ├── contracts/               # Smart contracts (Foundry)
+  │    ├── src/
+  │    │    ├── Faucet.sol
+  │    │    ├── TriviaGame.sol
+  │    │    ├── TriviaGameV2.sol
+  │    │    └── MockVRF*.sol
+  │    ├── script/            # Deployment scripts
+  │    │    ├── Deploy.s.sol
+  │    │    ├── DeployTriviaGameV2.s.sol
+  │    │    └── Add*Questions.s.sol
+  │    ├── test/              # Contract tests
+  │    └── foundry.toml       # Foundry config
+  ├── frontend/
+  │    ├── src/
+  │    │    ├── app/          # Next.js pages
+  │    │    ├── components/   # React components
+  │    │    ├── hooks/        # Custom hooks
+  │    │    ├── config/       # Contract ABIs & addresses
+  │    │    ├── store/        # Zustand state management
+  │    │    └── contexts/     # React contexts
+  │    ├── config/            # Web3 configuration
+  │    └── package.json
+  ├── BASE_MIGRATION_GUIDE.md
+  └── README.md
+```
+
+---
+
+# 🔐 **Smart Contracts**
+
+### **SimpleTriviaGame.sol** *(Currently Deployed)*
+
+Basic trivia game contract deployed on Base Mainnet.
+
+**✅ Current Features:**
+- USDC rewards for correct answers
+- Owner can add/manage questions
+- Basic score tracking per wallet
+- Multiple choice questions
+
+**Key functions:**
+```solidity
+function addQuestion(string memory _questionText, string[] memory _options, uint256 _correctOption, uint256 _rewardAmount) external onlyOwner;
+function submitAnswer(uint256 _questionId, uint256 _selectedOption) external;
+function getQuestion(uint256 _questionId) external view returns (...);
+```
+
+### **TriviaGameV2.sol** *(Planned Upgrade)*
+
+Advanced trivia game with full feature set.
+
+**🚧 Planned Features:**
+- Username registration system
+- Chainlink VRF V2 for random question selection
+- Game sessions with time limits and speed bonuses
+- Global leaderboard (top 100 players)
+- ETH rewards with weekly prize pools
+- Advanced player statistics
+
+**Key functions:**
+```solidity
+function registerUsername(string memory _username) external;
+function startGame() external returns (uint256 sessionId);
+function submitAnswers(uint256 _sessionId, uint8[] calldata _answers) external;
+function claimRewards() external;
+function getLeaderboard(uint256 _count) external view returns (...);
+```
+
+### **Faucet.sol** (Optional - Testnet Only)
+
+Provides a one-time 10 USDC claim per user for testing.
+
+Key functions:
+```solidity
+function claim() external;
+function withdrawTokens(uint256 amount) external onlyOwner;
+```
+
+---
+
+# 🔧 **Setup & Installation**
+
+## 1️⃣ Clone the Repo
+
+```bash
+git clone https://github.com/yourname/zali.git
+cd Zali
+```
+
+## 2️⃣ Install Dependencies
+
+### Smart Contracts (Foundry)
+
+```bash
+cd contracts
+forge install
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+```
+
+---
+
+# ⚙ **Environment Variables**
+
+Create a `.env.local` file in `/frontend`:
+
+```bash
+# Contract Addresses (Base Mainnet)
+NEXT_PUBLIC_TRIVIA_GAME_ADDRESS=0x7409Cbcb6577164E96A9b474efD4C32B9e17d59d  # SimpleTriviaGame (current)
+NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS=0x...                                    # TriviaGameV2 (planned)
+NEXT_PUBLIC_FAUCET_ADDRESS=0x707ECcbbFa9073F1e5A5675F22473956FE36FC8d      # Optional - testnet only
+NEXT_PUBLIC_MOCK_VRF_ADDRESS=0x...                                         # Optional - for testing
+
+# Network Configuration
+NEXT_PUBLIC_RPC_URL=https://mainnet.base.org
+
+# WalletConnect
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+
+# Deployer Private Key (for deployment only)
+PRIVATE_KEY=your_private_key_here
+```
+
+### Network Details:
+- **Base Mainnet**: Chain ID `8453` (currently deployed)
+- **Base Sepolia (Testnet)**: Chain ID `84532`
+
+---
+
+# 🧪 **Testing Smart Contracts**
+
+Run Foundry tests:
+
+```bash
+cd contracts
+forge test
+forge test -vvv # Verbose output
+```
+
+---
+
+# 🚀 **Deploy Contracts**
+
+### Step 1: Set Up Chainlink VRF Subscription
+
+1. Visit https://vrf.chain.link
+2. Create a subscription on Base Mainnet
+3. Fund with LINK tokens
+4. Copy subscription ID
+5. Update `contracts/script/DeployTriviaGameV2.s.sol` with your subscription ID
+
+### Step 2: Deploy TriviaGameV2
+
+```bash
+cd contracts
+
+# Deploy to Base Mainnet
+forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+  --rpc-url https://mainnet.base.org \
+  --broadcast --verify \
+  --etherscan-api-key $BASESCAN_API_KEY
+
+# Or deploy to Base Sepolia (testnet)
+forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+  --rpc-url https://sepolia.base.org \
+  --broadcast --verify \
+  --etherscan-api-key $BASESCAN_API_KEY
+```
+
+### Step 3: Add Contract as VRF Consumer
+
+Go to https://vrf.chain.link and add your deployed contract address as a consumer.
+
+### Step 4: Fund Contract with ETH
+
+```bash
+cast send YOUR_CONTRACT_ADDRESS --value 0.5ether \
+  --rpc-url https://mainnet.base.org \
+  --private-key $PRIVATE_KEY
+```
+
+### Step 5: Add Questions
+
+```bash
+forge script script/AddBasicQuestions.s.sol \
+  --rpc-url https://mainnet.base.org \
+  --broadcast
+```
+
+Copy contract addresses → `/frontend/src/config/contracts.ts`.
+
+---
+
+# 🖥 **Run Frontend Locally**
+
+```bash
+npm run dev
+```
+
+View at:
+
+```
+http://localhost:3000
+```
+
+---
+
+# 🌐 **Deploy Frontend**
+
+Deploy using **Vercel**:
+
+```bash
+vercel --prod
+```
+
+Add environment variables on Vercel.
+
+---
+
+# 📄 **Smart Contract Events**
+
+The contracts emit events for tracking game progress:
+
+### TriviaGameV2 Events
+
+```solidity
+event PlayerRegistered(address indexed player, string username);
+event GameStarted(address indexed player, uint256 sessionId, uint256 requestId);
+event QuestionsAssigned(address indexed player, uint256 sessionId, uint256[] questionIds);
+event GameCompleted(address indexed player, uint256 sessionId, uint256 score, uint8 correctCount, uint256 reward);
+event RewardClaimed(address indexed player, uint256 amount);
+event LeaderboardUpdated(address indexed player, uint256 newRank, uint256 totalScore);
+```
+
+---
+
+# 🧭 **Gameplay Logic**
+
+### 1. User connects Web3 wallet
+
+ETH balance fetched in real time.
+
+### 2. User registers username
+
+One-time registration, stored on-chain.
+
+### 3. User starts game
+
+Transaction triggers Chainlink VRF request for random questions.
+
+### 4. VRF assigns random questions
+
+Chainlink VRF callback selects 10 random questions from contract storage.
+
+### 5. User plays trivia
+
+10 multiple-choice questions with 5-minute time limit.
+
+### 6. User submits answers
+
+Smart contract calculates:
+- Correct answer count
+- Speed bonus (faster = more bonus)
+- Total score
+- ETH reward amount
+
+### 7. Leaderboard updates
+
+Player's rank updates automatically based on total score.
+
+### 8. User claims rewards
+
+ETH rewards transferred instantly to player's wallet.
+
+### 9. Weekly rewards (optional)
+
+Top 10 players share weekly reward pool.
+
+---
+
+# 🎨 **UI/UX Features**
+
+* Responsive design (mobile & desktop)
+* Smooth animations with Framer Motion
+* Question timer with visual countdown
+* Progress tracking
+* Real-time balance updates
+* Toast notifications for transactions
+* Error boundaries for graceful error handling
+* Loading states and skeleton screens
+* Gradient themes
+* Interactive leaderboard
+* Wallet connection modal (AppKit)
+
+---
+
+# 📈 **Leaderboard System**
+
+On-chain leaderboard tracking:
+
+* **Top 100 players** by total score
+* Player username
+* Total score (includes correct answers + speed bonuses)
+* Games played
+* Best score in a single session
+* Accuracy percentage
+* Real-time rank updates
+
+Weekly rewards:
+* Top 10 players share weekly reward pool
+* Distribution: 40%, 25%, 15%, 10%, 5%, 2.5%, 1%, 0.5%, 0.5%, 0.5%
+
+---
+
+## 🔒 **Smart Contract Security**
+
+- Reentrancy protection with OpenZeppelin's `ReentrancyGuard`
+- Access control with `Ownable`
+- Input validation for all user-provided data
+- Secure random number generation using Chainlink VRF
+- Emergency withdrawal functions for admin
+- Comprehensive test coverage
+
+## 🔐 **Input Sanitization**
+
+The application implements comprehensive input sanitization to prevent XSS and injection attacks. The following measures are in place:
+
+### Sanitization Utilities
+
+- `sanitizeString(input: string)`: Removes HTML/JS tags and escapes special characters
+- `sanitizeUsername(username: string)`: Sanitizes usernames with strict character whitelisting
+- `sanitizeNumber(input: unknown)`: Safely converts input to a number with proper error handling
+- `sanitizeAddress(address: string)`: Validates and sanitizes Ethereum addresses
+
+### Form Handling
+
+The `useSanitizedForm` hook wraps react-hook-form with automatic input sanitization:
+
+```typescript
+import { useSanitizedForm } from '@/hooks/useSanitizedForm';
+import { z } from 'zod';
+
+const schema = z.object({
+  username: z.string().min(3).max(20),
+  // other fields...
+});
+
+const form = useSanitizedForm(schema, {
+  // optional react-hook-form options
+});
+```
+
+### Validation
+
+Input validation is handled by Zod schemas with built-in sanitization:
+
+```typescript
+import { z } from 'zod';
+import { sanitizeUsername } from '@/utils/sanitize';
+
+export const usernameSchema = z
+  .string()
+  .min(3)
+  .max(20)
+  .transform(val => sanitizeUsername(val.trim()));
+```
+
+### Testing
+
+All sanitization functions have corresponding unit tests in `src/utils/__tests__/sanitize.test.ts`.
+
+---
+
+# 🛡 **Security Notes**
+
+* **Reentrancy Protection**: All contracts use OpenZeppelin's `ReentrancyGuard`
+* **Access Control**: Admin functions protected with `onlyOwner` modifier
+* **Input validation**: Alphanumeric + underscore only
+* **Time limits**: 5-minute timeout per game session
+* **Gas optimization**: Efficient storage patterns and loops
+* **No price manipulation**: Rewards are fixed in ETH, not dependent on oracle prices
+
+---
+
+# 🎥 **Demo Video Instructions**
+
+Your demo video should include:
+
+1. Opening the webapp in browser
+2. Connecting Web3 wallet (MetaMask/Coinbase Wallet)
+3. Registering username
+4. Starting a game session
+5. Showing Chainlink VRF question assignment
+6. Playing trivia (answering questions)
+7. Submitting answers and viewing score
+8. Claiming ETH rewards
+9. Viewing leaderboard position
+10. Showing transaction on BaseScan
+11. Explaining the architecture and Base integration
+
+---
+
+# 🏆 **Why This Project Stands Out**
+
+* **Built on Base**: Fast, cheap L2 transactions
+* **Chainlink VRF Integration**: Provably fair randomness
+* **Real ETH rewards**: Instant payouts on-chain
+* **No entry fees**: Free to play, earn based on performance
+* **Comprehensive leaderboard**: Competitive gameplay with weekly rewards
+* **Production-ready**: Full error handling, state management, and testing
+* **Fully on-chain**: No backend dependencies
+* **Modern Web3 stack**: Wagmi, Viem, AppKit for seamless wallet integration
+* **Clean architecture**: Well-documented and maintainable code
+
+---
+
+# 🤝 **Contributing**
+
+Feel free to fork, open issues, or submit pull requests.
+
+---
+
+# 📜 **License**
+
+MIT License © 2025
+
+---
+
+## 🔗 **Important Links**
+
+- **Base Mainnet Explorer**: https://basescan.org
+- **Base Sepolia Explorer**: https://sepolia.basescan.org
+- **Base Documentation**: https://docs.base.org
+- **Chainlink VRF (Base)**: https://docs.chain.link/vrf/v2/subscription/supported-networks#base-mainnet
+- **USDC on Base**: https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+- **Get testnet ETH**: https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet
+
+---
+
+## 🆘 **Support & Contact**
+
+For issues, questions, or contributions:
+- Open an issue on GitHub
+- Check `BASE_MIGRATION_GUIDE.md` for deployment help
+- Review contract documentation in `/contracts/src/`
+
+---
