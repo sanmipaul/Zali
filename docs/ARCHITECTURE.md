@@ -172,3 +172,15 @@ graph TD
     S --> A
     T --> O
 ```
+
+## Maintenance Notes
+
+These diagrams should be kept updated as the codebase evolves:
+
+- Update system architecture when adding new services or layers
+- Modify data flow diagrams for new user interactions or API changes
+- Expand component hierarchy as new components are added
+- Update state management diagrams when new slices or contexts are introduced
+- Review diagrams during major refactoring or architectural changes
+
+Last updated: January 20, 2026
