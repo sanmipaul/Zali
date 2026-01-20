@@ -56,6 +56,41 @@ graph TB
     SC --> USDC
 ```
 
+## Data Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User (MiniPay)
+    participant F as Frontend (Next.js)
+    participant W as Wagmi Provider
+    participant SC as SimpleTriviaGame Contract
+    participant V as VRF Coordinator
+    participant B as Celo Blockchain
+
+    U->>F: Click "Play Now" or "Claim cUSD"
+    F->>W: Request Wallet Connection
+    W->>U: Prompt MiniPay Connection
+    U->>W: Approve Connection
+    W->>F: Return Wallet Address & Balance
+    F->>SC: Fetch Available Questions
+    SC->>F: Return Question IDs & Metadata
+    F->>SC: Get Specific Question Details
+    SC->>F: Return Question Text, Options, Reward
+    F->>U: Display Question with Timer
+    U->>F: Select Answer Option
+    F->>W: Prepare Transaction (submitAnswer)
+    W->>U: Request Signature via MiniPay
+    U->>W: Sign Transaction
+    W->>SC: Submit Signed Transaction
+    SC->>B: Validate & Execute Transaction
+    B->>SC: Confirm Execution
+    SC->>W: Emit AnswerSubmitted Event
+    W->>F: Update UI with Result
+    F->>U: Show Correct/Incorrect & Reward Amount
+    F->>Z: Update User Score in Store
+    Z->>F: Persist Score Locally
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
