@@ -214,6 +214,32 @@ graph LR
     L --> M[Deploy to Prod]
 ```
 
+## Tech Stack Overview
+
+```mermaid
+mindmap
+  root((Zali Tech Stack))
+    Smart Contracts
+      Solidity
+      Foundry
+      OpenZeppelin
+      Chainlink VRF
+    Frontend
+      Next.js
+      React
+      TypeScript
+      Wagmi
+      TailwindCSS
+    Blockchain
+      Celo Network
+      USDC Token
+      MiniPay
+    Tools
+      Mermaid.js
+      Excalidraw
+      draw.io
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
