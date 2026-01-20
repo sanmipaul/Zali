@@ -138,4 +138,30 @@ contract TriviaGameTest is Test {
         // Check game state
         assertEq(uint256(triviaGame.getGameState(1)), 3); // GameState.Cancelled
     }
+
+    function test_GameFull() public {
+        // Players join until full
+        vm.prank(player1);
+        triviaGame.joinGame(1);
+        
+        vm.prank(player2);
+        triviaGame.joinGame(1);
+        
+        vm.prank(player3);
+        triviaGame.joinGame(1);
+        
+        // Check max players reached
+        address[] memory players = triviaGame.getPlayers(1);
+        assertEq(players.length, 3);
+        
+        // Try to join another player (should fail)
+        address player4 = address(0x5);
+        vm.prank(player4);
+        mockCUSD.transfer(player4, 10 * 10**18);
+        vm.prank(player4);
+        mockCUSD.approve(address(triviaGame), type(uint256).max);
+        vm.prank(player4);
+        vm.expectRevert(); // Assuming it reverts with GameFull
+        triviaGame.joinGame(1);
+    }
 }
