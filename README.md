@@ -287,6 +287,17 @@ PRIVATE_KEY=your_private_key_here
 
 # 🧪 **Testing Smart Contracts**
 
+Install Foundry (if not already installed):
+
+```bash
+# On Linux/macOS
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+
+# On Windows (PowerShell)
+irm https://get.foundry.sh | iex
+```
+
 Run Foundry tests:
 
 ```bash
