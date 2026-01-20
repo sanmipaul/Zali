@@ -2,8 +2,6 @@
 
 This document contains visual architecture diagrams for the Zali project to help new contributors understand the system.
 
-## System Architecture
-
 ```mermaid
 graph TB
     subgraph "User Layer"
