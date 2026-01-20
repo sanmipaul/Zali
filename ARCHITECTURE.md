@@ -91,6 +91,31 @@ sequenceDiagram
     Z->>F: Persist Score Locally
 ```
 
+## Smart Contract Interactions
+
+```mermaid
+stateDiagram-v2
+    [*] --> Connected: Wallet Connected via MiniPay
+    Connected --> Approved: Approve USDC Spending
+    Approved --> Playing: Fetch Question from Contract
+    Playing --> Submitted: Submit Answer Transaction
+    Submitted --> Checking: Contract Validates Answer
+    Checking --> Correct: If selectedOption == correctOption
+    Checking --> Incorrect: If selectedOption != correctOption
+    Correct --> Rewarded: Transfer USDC Reward
+    Incorrect --> NoReward: No Transfer
+    Rewarded --> ScoreUpdated: Increment userScores
+    NoReward --> ScoreUpdated: No Score Change
+    ScoreUpdated --> [*]: Ready for Next Question
+    note right of Connected : User connects MiniPay wallet
+    note right of Approved : Frontend calls approve on USDC
+    note right of Playing : Call getQuestion(questionId)
+    note right of Submitted : Call submitAnswer(questionId, option)
+    note right of Checking : On-chain validation
+    note right of Rewarded : safeTransfer to user
+    note right of ScoreUpdated : Update mapping
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
