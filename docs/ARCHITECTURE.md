@@ -9,6 +9,7 @@ This document contains visual architecture diagrams for the Zali Web3 Trivia Gam
 - [Smart Contract Interactions](#smart-contract-interactions)
 - [Component Hierarchy](#component-hierarchy)
 - [State Management](#state-management)
+- [Deployment Architecture](#deployment-architecture)
 
 ## System Architecture
 
