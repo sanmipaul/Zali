@@ -69,3 +69,38 @@ sequenceDiagram
     B->>F: Confirmation
     F->>U: Show results
 ```
+
+## Smart Contract Interactions
+
+```mermaid
+flowchart TD
+    A[User Action] --> B{Action Type}
+    B -->|Create Game| C[createGame<br/>Only Owner]
+    B -->|Join Game| D[joinGame<br/>Pay Entry Fee]
+    B -->|Start Game| E[startGame<br/>Owner/Admin]
+    B -->|Submit Answer| F[submitAnswer<br/>During Game]
+    B -->|End Game| G[endGame<br/>Auto/Manual]
+    B -->|Claim Reward| H[claimReward<br/>Winner]
+    B -->|Withdraw| I[withdrawTokens<br/>Owner]
+    
+    C --> J[TriviaGame Contract]
+    D --> J
+    E --> J
+    F --> J
+    G --> J
+    H --> J
+    I --> J
+    
+    J --> K[Events Emitted]
+    K --> L[GameCreated]
+    K --> M[PlayerJoined]
+    K --> N[GameStarted]
+    K --> O[AnswerSubmitted]
+    K --> P[GameEnded]
+    K --> Q[RewardClaimed]
+    
+    J --> R[State Changes]
+    R --> S[Game Struct Updated]
+    R --> T[Player Balances Updated]
+    R --> U[Prize Pool Updated]
+```
