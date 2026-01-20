@@ -26,16 +26,26 @@ graph TB
         H[Components<br/>UI Elements]
         I[Hooks<br/>useContract, etc.]
         J[Store<br/>Zustand]
+        K[Contexts<br/>AuthContext, etc.]
     end
     
     subgraph "Blockchain Layer"
         D
         E
+        L[VRF Coordinator<br/>For Randomness]
+    end
+    
+    subgraph "Development Tools"
+        M[Foundry<br/>Testing]
+        N[Hardhat<br/>Deployment]
+        O[Next.js Dev Server]
     end
     
     B --> H
     B --> I
     B --> J
+    B --> K
+    E --> L
 ```
 
 ## Data Flow
