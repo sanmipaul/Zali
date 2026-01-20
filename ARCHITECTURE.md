@@ -116,6 +116,35 @@ stateDiagram-v2
     note right of ScoreUpdated : Update mapping
 ```
 
+## Component Hierarchy
+
+```mermaid
+graph TD
+    A[Root App] --> B[AppKitProvider (WalletConnect)]
+    A --> C[AuthProvider (Wallet Auth)]
+    A --> D[AutoFaucetProvider (Faucet Logic)]
+    B --> E[Layout (Main Structure)]
+    E --> F[Navbar (Navigation)]
+    E --> G[Main Content (Pages)]
+    G --> H[Home Page (/)]
+    G --> I[Play Page (/play)]
+    G --> J[Faucet Page (/faucet)]
+    H --> K[Hero Section (Welcome)]
+    H --> L[Features Section (How It Works)]
+    H --> M[Stats Section (Game Stats)]
+    I --> N[QuestionCard (Question Display)]
+    I --> O[Timer (Countdown)]
+    I --> P[ProgressBar (Game Progress)]
+    I --> Q[RewardCard (Reward Display)]
+    J --> R[FaucetPrompt (Claim Interface)]
+    J --> S[QuickRewards (Reward Options)]
+    N --> T[Option Buttons (A/B/C/D)]
+    Q --> U[RewardItem (Individual Reward)]
+    F --> V[SignOutButton (Logout)]
+    F --> W[Leaderboard (Top Players)]
+    W --> X[PointsHistory (User History)]
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
