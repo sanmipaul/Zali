@@ -10,6 +10,7 @@ This document contains visual architecture diagrams for the Zali Web3 Trivia Gam
 - [Component Hierarchy](#component-hierarchy)
 - [State Management](#state-management)
 - [Deployment Architecture](#deployment-architecture)
+- [Tools Used for Diagrams](#tools-used-for-diagrams)
 
 ## System Architecture
 
