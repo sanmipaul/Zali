@@ -191,6 +191,11 @@ To ensure these diagrams remain accurate as the codebase evolves:
 3. **Documentation PRs**: Treat diagram updates as part of documentation maintenance.
 4. **Automated Checks**: Consider adding CI checks to validate diagram syntax (Mermaid can be linted).
 
+### Tools Used
+- **Mermaid.js**: For creating diagrams embedded in Markdown
+- **GitHub**: For hosting and rendering diagrams
+- **VS Code**: For editing and previewing diagrams
+
 ```mermaid
 graph TB
     subgraph "User Layer"
