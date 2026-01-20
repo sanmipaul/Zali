@@ -194,3 +194,23 @@ These diagrams should be kept updated as the codebase evolves:
 - Review diagrams during major refactoring or architectural changes
 
 Last updated: January 20, 2026
+
+## Deployment Architecture
+
+```mermaid
+graph TD
+    A[Vercel<br/>Frontend Hosting] --> B[Next.js App<br/>Static + SSR]
+    C[Base Mainnet<br/>Smart Contracts] --> D[SimpleTriviaGame.sol<br/>Deployed]
+    C --> E[Faucet.sol<br/>Deployed]
+    
+    F[GitHub<br/>Repository] --> G[CI/CD Pipeline]
+    G --> H[Automated Tests<br/>Foundry]
+    G --> I[Build & Deploy<br/>Vercel]
+    G --> J[Contract Deployment<br/>Scripts]
+    
+    K[User] --> L[vercel.app<br/>Domain]
+    L --> B
+    B --> M[Base RPC<br/>Blockchain Interaction]
+    M --> D
+    M --> E
+```
