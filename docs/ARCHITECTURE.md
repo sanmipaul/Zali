@@ -191,6 +191,8 @@ graph TD
 - **GitHub**: For rendering Mermaid diagrams in README and docs
 - **Draw.io/Excalidraw**: Alternative tools for more complex diagrams if needed
 
+> **Note**: All diagrams use Mermaid syntax and are rendered directly in GitHub. For editing, use the Mermaid live editor at mermaid.live.
+
 ## Maintenance Notes
 
 These diagrams should be kept updated as the codebase evolves:
