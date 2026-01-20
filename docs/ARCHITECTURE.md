@@ -104,3 +104,40 @@ flowchart TD
     R --> T[Player Balances Updated]
     R --> U[Prize Pool Updated]
 ```
+
+## Component Hierarchy
+
+```mermaid
+graph TD
+    A[App<br/>layout.tsx] --> B[Providers<br/>providers.tsx]
+    B --> C[Page Components]
+    
+    C --> D[Home Page<br/>page.tsx]
+    C --> E[Play Page<br/>play/page.tsx]
+    C --> F[Create Page<br/>create/page.tsx]
+    C --> G[Leaderboard Page<br/>leaderboard/page.tsx]
+    C --> H[Faucet Page<br/>faucet/page.tsx]
+    
+    A --> I[Shared Components]
+    I --> J[Navbar<br/>Navbar.tsx]
+    I --> K[Error Boundaries<br/>ErrorBoundary.tsx<br/>ContractErrorBoundary.tsx<br/>WalletErrorBoundary.tsx]
+    I --> L[Auth Components<br/>AuthGuard.tsx<br/>SignOutButton.tsx]
+    
+    D --> M[Game Components]
+    M --> N[QuestionCard.tsx]
+    M --> O[Timer.tsx]
+    M --> P[ProgressBar.tsx]
+    M --> Q[RewardCard.tsx]
+    M --> R[QuickRewards.tsx]
+    
+    I --> S[Utility Components]
+    S --> T[SkipNavLink.tsx]
+    S --> U[ErrorDisplay.tsx]
+    S --> V[FaucetPrompt.tsx]
+    S --> W[PointsHistory.tsx]
+    S --> X[Leaderboard.tsx]
+    S --> Y[GameDebugger.tsx]
+    S --> Z[VRFFulfillment.tsx]
+    
+    S --> AA[Skeletons<br/>skeletons/]
+```
