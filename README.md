@@ -304,6 +304,7 @@ Run Foundry tests:
 cd contracts
 forge test
 forge test -vvv # Verbose output
+forge coverage  # Check test coverage
 ```
 
 ---
