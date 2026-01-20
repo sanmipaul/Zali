@@ -204,6 +204,7 @@ These diagrams should be kept updated as the codebase evolves:
 - Review diagrams during major refactoring or architectural changes
 
 Last updated: January 20, 2026
+Version: 1.0
 
 ## Deployment Architecture
 
