@@ -305,6 +305,11 @@ cd contracts
 forge test
 forge test -vvv # Verbose output
 forge coverage  # Check test coverage
+
+# Or using npm scripts
+npm run test
+npm run test:verbose
+npm run coverage
 ```
 
 ### CI/CD
