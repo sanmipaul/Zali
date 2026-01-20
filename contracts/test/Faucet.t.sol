@@ -108,4 +108,20 @@ contract FaucetTest is Test {
         vm.expectRevert(Faucet.InsufficientBalance.selector);
         faucet.withdrawTokens(balance + 1);
     }
+
+    function test_FaucetBalanceAfterClaims() public {
+        // Initial balance
+        uint256 initialBalance = mockCUSD.balanceOf(address(faucet));
+        
+        // Two users claim
+        vm.prank(user1);
+        faucet.claim();
+        
+        vm.prank(user2);
+        faucet.claim();
+        
+        // Final balance
+        uint256 finalBalance = mockCUSD.balanceOf(address(faucet));
+        assertEq(finalBalance, initialBalance - 2 * faucet.CLAIM_AMOUNT());
+    }
 }
