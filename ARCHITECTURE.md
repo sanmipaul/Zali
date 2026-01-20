@@ -2,6 +2,60 @@
 
 This document contains visual architecture diagrams for the Zali project to help new contributors understand the system.
 
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "User Layer"
+        U[User with MiniPay Wallet]
+        U --> U1[Connect Wallet]
+        U --> U2[Play Trivia]
+        U --> U3[Claim Rewards]
+    end
+    
+    subgraph "Frontend Layer"
+        N[Next.js App]
+        N --> N1[Pages: Home, Play, Faucet]
+        N --> N2[Components: QuestionCard, Timer]
+        W[Wagmi Web3 Provider]
+        W --> W1[Wallet Connection]
+        W --> W2[Contract Interactions]
+        Z[Zustand Store]
+        Z --> Z1[Auth Slice]
+        Z --> Z2[Game Slice]
+        Z --> Z3[UI Slice]
+        C[React Contexts]
+        C --> C1[AuthContext]
+        C --> C2[AutoFaucetContext]
+    end
+    
+    subgraph "Contract Layer"
+        SC[SimpleTriviaGame Contract]
+        SC --> SC1[addQuestion]
+        SC --> SC2[submitAnswer]
+        SC --> SC3[getQuestion]
+        M[MockVRFCoordinator]
+        M --> M1[Randomness for Future]
+    end
+    
+    subgraph "Blockchain Layer"
+        BC[Celo Network]
+        BC --> BC1[Transaction Processing]
+        BC --> BC2[State Storage]
+        USDC[USDC Token Contract]
+        USDC --> USDC1[Transfer Rewards]
+    end
+    
+    U --> N
+    N --> W
+    N --> Z
+    N --> C
+    W --> SC
+    SC --> M
+    SC --> BC
+    SC --> USDC
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
