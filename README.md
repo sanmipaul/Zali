@@ -26,6 +26,8 @@ Players can:
 
 No staking. No long setup. Just **connect → play → earn**.
 
+For detailed architecture diagrams, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ---
 
 # 🚀 **Live on Base Mainnet!**
