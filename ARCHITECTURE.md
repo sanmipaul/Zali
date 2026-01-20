@@ -196,6 +196,24 @@ To ensure these diagrams remain accurate as the codebase evolves:
 - **GitHub**: For hosting and rendering diagrams
 - **VS Code**: For editing and previewing diagrams
 
+## Development Workflow
+
+```mermaid
+graph LR
+    A[Developer] --> B[Edit Code]
+    B --> C[Run Tests]
+    C --> D[Deploy Contracts]
+    D --> E[Update Frontend]
+    E --> F[Build & Deploy]
+    F --> G[Update Diagrams]
+    G --> H[Commit Changes]
+    H --> I[Push to Repo]
+    I --> J[Create PR]
+    J --> K[Code Review]
+    K --> L[Merge]
+    L --> M[Deploy to Prod]
+```
+
 ```mermaid
 graph TB
     subgraph "User Layer"
