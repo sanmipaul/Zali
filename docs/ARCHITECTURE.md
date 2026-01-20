@@ -184,6 +184,12 @@ graph TD
     T --> O
 ```
 
+## Tools Used for Diagrams
+
+- **Mermaid.js**: For creating diagrams directly in Markdown
+- **GitHub**: For rendering Mermaid diagrams in README and docs
+- **Draw.io/Excalidraw**: Alternative tools for more complex diagrams if needed
+
 ## Maintenance Notes
 
 These diagrams should be kept updated as the codebase evolves:
