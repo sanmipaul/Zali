@@ -182,6 +182,15 @@ graph TD
     end
 ```
 
+## Keeping Diagrams Updated
+
+To ensure these diagrams remain accurate as the codebase evolves:
+
+1. **Review on Major Changes**: Update diagrams when adding new features, refactoring components, or changing data flows.
+2. **Code Reviews**: Include diagram updates in pull request reviews for architectural changes.
+3. **Documentation PRs**: Treat diagram updates as part of documentation maintenance.
+4. **Automated Checks**: Consider adding CI checks to validate diagram syntax (Mermaid can be linted).
+
 ```mermaid
 graph TB
     subgraph "User Layer"
