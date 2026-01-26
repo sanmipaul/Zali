@@ -114,4 +114,105 @@ contract FaucetTest is Test {
         vm.expectRevert(Faucet.InsufficientBalance.selector);
         faucet.withdrawTokens(balance + 1);
     }
+    
+    function test_MultiplePeopleClaiming() public {
+        // User1 claims
+        vm.prank(user1);
+        faucet.claim();
+        assertEq(mockCUSD.balanceOf(user1), 10 * 10**18);
+        
+        // User2 claims
+        vm.prank(user2);
+        faucet.claim();
+        assertEq(mockCUSD.balanceOf(user2), 10 * 10**18);
+        
+        // Both should be marked as claimed
+        assertTrue(faucet.hasClaimed(user1));
+        assertTrue(faucet.hasClaimed(user2));
+    }
+    
+    function test_PartialWithdrawal() public {
+        uint256 faucetBalance = mockCUSD.balanceOf(address(faucet));
+        uint256 withdrawAmount = faucetBalance / 2;
+        
+        vm.startPrank(owner);
+        faucet.withdrawTokens(withdrawAmount);
+        
+        uint256 remainingBalance = mockCUSD.balanceOf(address(faucet));
+        assertEq(remainingBalance, faucetBalance - withdrawAmount);
+        vm.stopPrank();
+    }
+    
+    function test_OwnershipCanBeTransferred() public {
+        address newOwner = address(0x5);
+        
+        vm.prank(owner);
+        faucet.transferOwnership(newOwner);
+        
+        // New owner should be able to withdraw
+        vm.prank(newOwner);
+        uint256 balance = mockCUSD.balanceOf(address(faucet));
+        faucet.withdrawTokens(balance);
+        
+        assertEq(mockCUSD.balanceOf(address(faucet)), 0);
+    }
+    
+    function test_ClaimWithExactBalance() public {
+        // Set faucet balance to exactly one claim amount
+        vm.startPrank(owner);
+        uint256 currentBalance = mockCUSD.balanceOf(address(faucet));
+        if (currentBalance > 10 * 10**18) {
+            faucet.withdrawTokens(currentBalance - 10 * 10**18);
+        }
+        vm.stopPrank();
+        
+        // User should be able to claim
+        vm.prank(user1);
+        faucet.claim();
+        assertEq(mockCUSD.balanceOf(user1), 10 * 10**18);
+        assertEq(mockCUSD.balanceOf(address(faucet)), 0);
+    }
+    
+    function test_ContractBalanceAfterMultipleClaims() public {
+        uint256 initialBalance = mockCUSD.balanceOf(address(faucet));
+        
+        vm.prank(user1);
+        faucet.claim();
+        
+        uint256 balanceAfterFirst = mockCUSD.balanceOf(address(faucet));
+        assertEq(balanceAfterFirst, initialBalance - 10 * 10**18);
+    }
+    
+    function test_NoDoubleClaimingAcrossBlocks() public {
+        vm.prank(user1);
+        faucet.claim();
+        
+        // Mine a block
+        vm.roll(block.number + 1);
+        
+        // User1 should still not be able to claim
+        vm.prank(user1);
+        vm.expectRevert(Faucet.AlreadyClaimed.selector);
+        faucet.claim();
+    }
+    
+    function test_RevertWhen_ClaimAmountIsZero() public {
+        // This tests that claim amount is properly set
+        assertGt(faucet.CLAIM_AMOUNT(), 0);
+    }
+    
+    function test_TokenAddressIsSet() public view {
+        assertNotEq(address(faucet.cUSDToken()), address(0));
+        assertEq(address(faucet.cUSDToken()), address(mockCUSD));
+    }
+    
+    function test_OwnerCanWithdrawFullBalance() public {
+        uint256 faucetBalance = mockCUSD.balanceOf(address(faucet));
+        
+        vm.prank(owner);
+        faucet.withdrawTokens(faucetBalance);
+        
+        assertEq(mockCUSD.balanceOf(address(faucet)), 0);
+        assertEq(mockCUSD.balanceOf(owner), 1000000 * 10**18);
+    }
 }
