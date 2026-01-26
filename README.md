@@ -199,23 +199,26 @@ Manages basic trivia gameplay with question management and user scoring.
 Direct token-based rewards without VRF randomness or leaderboard features.
 
 Key features:
-- Username registration system
-- Chainlink VRF V2 for random question selection
-- On-chain question storage
-- Automatic ETH reward distribution
-- Leaderboard tracking (top 100 players)
-- Weekly reward pools for top players
-- Speed bonus calculations
+- Simple question and answer management
+- Token-based reward system
+- Owner-controlled question management
+- User score tracking
+- Category and difficulty organization
 
 Key functions:
 
 ```solidity
-function registerUsername(string memory _username) external;
-function startGame() external returns (uint256 sessionId);
-function submitAnswers(uint256 _sessionId, uint8[] calldata _answers) external;
-function claimRewards() external;
-function getLeaderboard(uint256 _count) external view returns (...);
-function addQuestion(...) external onlyOwner;
+function addQuestion(
+    string memory _questionText,
+    string[] memory _options,
+    uint256 _correctOption,
+    uint256 _rewardAmount,
+    Category _category,
+    Difficulty _difficulty
+) external onlyOwner;
+
+function deactivateQuestion(uint256 _questionId) external onlyOwner;
+function getQuestion(uint256 _questionId) external view returns (Question);
 ```
 
 ### **Faucet.sol** (Optional - Testnet Only)
@@ -263,10 +266,10 @@ npm install
 Create a `.env.local` file in `/frontend`:
 
 ```bash
-# Contract Addresses (update after deployment)
-NEXT_PUBLIC_TRIVIA_GAME_V2_ADDRESS=0x...
+# Contract Addresses
+NEXT_PUBLIC_SIMPLE_TRIVIA_GAME_ADDRESS=0x7409Cbcb6577164E96A9b474efD4C32B9e17d59d
 NEXT_PUBLIC_FAUCET_ADDRESS=0x... # Optional - testnet only
-NEXT_PUBLIC_MOCK_VRF_ADDRESS=0x... # Optional - for testing
+NEXT_PUBLIC_USDC_ADDRESS=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
 
 # Network Configuration
 NEXT_PUBLIC_RPC_URL=https://mainnet.base.org
