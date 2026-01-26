@@ -301,48 +301,28 @@ forge test -vvv # Verbose output
 
 # 🚀 **Deploy Contracts**
 
-### Step 1: Set Up Chainlink VRF Subscription
-
-1. Visit https://vrf.chain.link
-2. Create a subscription on Base Mainnet
-3. Fund with LINK tokens
-4. Copy subscription ID
-5. Update `contracts/script/DeployTriviaGameV2.s.sol` with your subscription ID
-
-### Step 2: Deploy TriviaGameV2
+### Step 1: Deploy SimpleTriviaGame
 
 ```bash
 cd contracts
 
 # Deploy to Base Mainnet
-forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+forge script script/DeploySimpTriviaGame.s.sol \
   --rpc-url https://mainnet.base.org \
   --broadcast --verify \
   --etherscan-api-key $BASESCAN_API_KEY
 
 # Or deploy to Base Sepolia (testnet)
-forge script script/DeployTriviaGameV2.s.sol:DeployTriviaGameV2 \
+forge script script/DeploySimpleTriviaGame.s.sol \
   --rpc-url https://sepolia.base.org \
   --broadcast --verify \
   --etherscan-api-key $BASESCAN_API_KEY
 ```
 
-### Step 3: Add Contract as VRF Consumer
-
-Go to https://vrf.chain.link and add your deployed contract address as a consumer.
-
-### Step 4: Fund Contract with ETH
+### Step 2: Add Questions
 
 ```bash
-cast send YOUR_CONTRACT_ADDRESS --value 0.5ether \
-  --rpc-url https://mainnet.base.org \
-  --private-key $PRIVATE_KEY
-```
-
-### Step 5: Add Questions
-
-```bash
-forge script script/AddBasicQuestions.s.sol \
+forge script script/AddQuestions.s.sol \
   --rpc-url https://mainnet.base.org \
   --broadcast
 ```
@@ -381,15 +361,11 @@ Add environment variables on Vercel.
 
 The contracts emit events for tracking game progress:
 
-### TriviaGameV2 Events
+### SimpleTriviaGame Events
 
 ```solidity
-event PlayerRegistered(address indexed player, string username);
-event GameStarted(address indexed player, uint256 sessionId, uint256 requestId);
-event QuestionsAssigned(address indexed player, uint256 sessionId, uint256[] questionIds);
-event GameCompleted(address indexed player, uint256 sessionId, uint256 score, uint8 correctCount, uint256 reward);
-event RewardClaimed(address indexed player, uint256 amount);
-event LeaderboardUpdated(address indexed player, uint256 newRank, uint256 totalScore);
+event QuestionAdded(uint256 indexed questionId, string questionText, uint256 reward);
+event AnswerSubmitted(address indexed user, uint256 questionId, bool isCorrect, uint256 reward);
 ```
 
 ---
