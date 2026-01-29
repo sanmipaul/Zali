@@ -500,3 +500,143 @@ For production logging:
    - Datadog
    - LogRocket
    - Better Stack (formerly Logtail)
+
+## Troubleshooting
+
+### Common Issues
+
+#### Build Failures
+
+**Issue**: Build fails with "Module not found" errors
+
+**Solution**:
+```bash
+# Clear cache and reinstall dependencies
+rm -rf node_modules .next package-lock.json
+npm install
+npm run build
+```
+
+**Issue**: TypeScript errors during build
+
+**Solution**:
+```bash
+# Check TypeScript configuration
+npm run lint
+npx tsc --noEmit
+
+# Fix type errors or temporarily bypass (not recommended for production)
+# Add to next.config.ts:
+# typescript: { ignoreBuildErrors: true }
+```
+
+#### Runtime Errors
+
+**Issue**: "Cannot connect to WalletConnect"
+
+**Solution**:
+- Verify `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` is set correctly
+- Check WalletConnect dashboard for project status
+- Ensure project ID matches the one from cloud.walletconnect.com
+
+**Issue**: "Subgraph query failed"
+
+**Solution**:
+- Verify `NEXT_PUBLIC_SUBGRAPH_URL` is accessible
+- Test subgraph endpoint with curl:
+  ```bash
+  curl -X POST -H "Content-Type: application/json" \
+    -d '{"query": "{_meta{block{number}}}"}' \
+    YOUR_SUBGRAPH_URL
+  ```
+- Check The Graph dashboard for subgraph status
+
+**Issue**: "Contract interaction failed"
+
+**Solution**:
+- Verify contract addresses are correct for the network
+- Check `NEXT_PUBLIC_CHAIN_ID` matches your target network (8453 for Base)
+- Ensure RPC endpoint is responsive:
+  ```bash
+  curl -X POST -H "Content-Type: application/json" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' \
+    YOUR_RPC_URL
+  ```
+
+#### Performance Issues
+
+**Issue**: Slow page load times
+
+**Solution**:
+- Enable image optimization
+- Implement code splitting
+- Use Vercel Analytics to identify bottlenecks
+- Enable caching headers:
+  ```javascript
+  // In next.config.ts
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  }
+  ```
+
+**Issue**: High server costs
+
+**Solution**:
+- Use edge functions for static content
+- Implement ISR (Incremental Static Regeneration)
+- Enable caching at CDN level
+
+#### Environment Variable Issues
+
+**Issue**: Environment variables not loading
+
+**Solution**:
+- Verify variables are prefixed with `NEXT_PUBLIC_` for client-side access
+- Rebuild application after changing environment variables
+- For Vercel/Netlify: Check that variables are set in the correct environment (Production/Preview)
+- Clear build cache and redeploy
+
+#### SSL/Domain Issues
+
+**Issue**: SSL certificate not provisioning
+
+**Solution**:
+- Wait 24-48 hours for DNS propagation
+- Verify DNS records are correctly configured
+- Check nameservers are pointing to deployment platform
+- For custom domains, ensure domain is verified in platform dashboard
+
+**Issue**: "Mixed content" warnings
+
+**Solution**:
+- Ensure all external resources use HTTPS
+- Update RPC URLs to use HTTPS
+- Check for hardcoded HTTP URLs in code
+
+### Getting Help
+
+If issues persist:
+
+1. **Check Logs**
+   - Vercel: View deployment logs in dashboard
+   - Netlify: Check deploy logs and function logs
+   - Custom Server: Check application logs
+
+2. **Community Support**
+   - Next.js Discord: [nextjs.org/discord](https://nextjs.org/discord)
+   - Stack Overflow: Tag questions with `next.js`
+   - GitHub Issues: Check project repository
+
+3. **Platform Support**
+   - Vercel: [vercel.com/support](https://vercel.com/support)
+   - Netlify: [answers.netlify.com](https://answers.netlify.com)
