@@ -325,3 +325,92 @@ Run with:
 ```bash
 docker-compose up -d
 ```
+
+## Domain Setup
+
+### DNS Configuration
+
+Configure your domain's DNS records to point to your deployment:
+
+#### For Vercel
+
+1. Add domain in Vercel dashboard
+2. Configure DNS records:
+   ```
+   Type: A
+   Name: @ (or subdomain)
+   Value: 76.76.21.21
+
+   Type: CNAME
+   Name: www
+   Value: cname.vercel-dns.com
+   ```
+
+#### For Netlify
+
+1. Add domain in Netlify dashboard
+2. Configure DNS records:
+   ```
+   Type: A
+   Name: @ (or subdomain)
+   Value: 75.2.60.5
+
+   Type: CNAME
+   Name: www
+   Value: your-site.netlify.app
+   ```
+
+#### For Custom Server
+
+1. Point A record to your server IP:
+   ```
+   Type: A
+   Name: @
+   Value: your.server.ip.address
+   ```
+
+2. Add CNAME for www subdomain:
+   ```
+   Type: CNAME
+   Name: www
+   Value: yourdomain.com
+   ```
+
+### SSL/TLS Certificate
+
+#### Automatic (Vercel/Netlify)
+- SSL certificates are automatically provisioned and renewed
+- No manual configuration required
+
+#### Manual (Custom Server)
+
+Use Let's Encrypt with Certbot:
+
+```bash
+# Install Certbot
+sudo apt-get update
+sudo apt-get install certbot
+
+# Obtain certificate
+sudo certbot certonly --standalone -d yourdomain.com -d www.yourdomain.com
+
+# Certificate files will be at:
+# /etc/letsencrypt/live/yourdomain.com/fullchain.pem
+# /etc/letsencrypt/live/yourdomain.com/privkey.pem
+
+# Set up auto-renewal
+sudo certbot renew --dry-run
+```
+
+### Testing Domain Configuration
+
+```bash
+# Test DNS propagation
+nslookup yourdomain.com
+
+# Test SSL certificate
+curl -I https://yourdomain.com
+
+# Check SSL certificate details
+openssl s_client -connect yourdomain.com:443 -servername yourdomain.com
+```
