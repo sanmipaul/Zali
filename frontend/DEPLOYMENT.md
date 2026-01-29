@@ -640,3 +640,147 @@ If issues persist:
 3. **Platform Support**
    - Vercel: [vercel.com/support](https://vercel.com/support)
    - Netlify: [answers.netlify.com](https://answers.netlify.com)
+
+## Rollback Procedures
+
+### Vercel Rollback
+
+#### Via Dashboard
+
+1. Go to your project dashboard
+2. Click on "Deployments" tab
+3. Find the last known working deployment
+4. Click the three dots menu
+5. Select "Promote to Production"
+6. Confirm the rollback
+
+#### Via CLI
+
+```bash
+# List recent deployments
+vercel ls
+
+# Promote a specific deployment
+vercel promote <deployment-url>
+
+# Or alias a deployment to production
+vercel alias <deployment-url> your-domain.com
+```
+
+### Netlify Rollback
+
+#### Via Dashboard
+
+1. Go to site dashboard
+2. Navigate to "Deploys" tab
+3. Find the last successful deployment
+4. Click "Publish deploy"
+5. Confirm publication
+
+#### Via CLI
+
+```bash
+# List deployments
+netlify deploy:list
+
+# Restore a specific deployment
+netlify api restoreSiteDeploy --deploy_id=<deploy-id>
+```
+
+### Docker Rollback
+
+#### Tag-based Rollback
+
+```bash
+# List available tags
+docker images zali-frontend
+
+# Stop current container
+docker stop zali-frontend-container
+
+# Run previous version
+docker run -d --name zali-frontend-container \
+  -p 3000:3000 \
+  zali-frontend:previous-tag
+
+# Or use docker-compose with specific tag
+docker-compose down
+docker-compose up -d zali-frontend:previous-tag
+```
+
+### Git-based Rollback
+
+If you need to rollback the code itself:
+
+```bash
+# Find the commit to rollback to
+git log --oneline
+
+# Create a new branch from that commit
+git checkout -b rollback-branch <commit-hash>
+
+# Push to trigger new deployment
+git push origin rollback-branch
+
+# Or revert the problematic commits
+git revert <commit-hash>
+git push origin main
+```
+
+### Emergency Rollback Checklist
+
+When performing an emergency rollback:
+
+- [ ] Identify the last known working deployment
+- [ ] Document the issue that caused the rollback
+- [ ] Execute rollback procedure for your platform
+- [ ] Verify the rollback was successful
+- [ ] Check monitoring tools (Sentry, analytics)
+- [ ] Notify team members of the rollback
+- [ ] Create incident report
+- [ ] Plan fix for the issue
+- [ ] Test fix in staging environment
+- [ ] Deploy fix when ready
+
+### Preventing the Need for Rollbacks
+
+1. **Use Preview Deployments**
+   - Test changes in preview/staging environment
+   - Vercel and Netlify automatically create preview deployments for PRs
+
+2. **Implement Feature Flags**
+   - Roll out features gradually
+   - Disable problematic features without redeployment
+
+3. **Automated Testing**
+   - Run E2E tests before deploying
+   - Use GitHub Actions or similar CI/CD
+
+4. **Monitoring and Alerts**
+   - Set up error rate alerts in Sentry
+   - Monitor performance metrics
+   - Quick detection enables quick response
+
+### Post-Rollback Actions
+
+After successfully rolling back:
+
+1. **Investigate Root Cause**
+   - Review error logs
+   - Check Sentry for error patterns
+   - Analyze what went wrong
+
+2. **Fix the Issue**
+   - Create fix in development environment
+   - Test thoroughly
+   - Deploy to staging first
+
+3. **Document Incident**
+   - Record what happened
+   - Document resolution steps
+   - Update runbooks if needed
+
+4. **Update Deployment Process**
+   - Add checks to prevent similar issues
+   - Improve testing coverage
+   - Consider additional safeguards
