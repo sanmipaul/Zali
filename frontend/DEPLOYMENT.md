@@ -143,3 +143,63 @@ NEXT_PUBLIC_MIXPANEL_TOKEN=your_mixpanel_token
 ### Environment Variable Setup by Platform
 
 See the [Deployment Platforms](#deployment-platforms) section for platform-specific instructions on setting environment variables.
+
+## Deployment Platforms
+
+### Vercel (Recommended)
+
+Vercel is the recommended platform as it's built by the Next.js team and offers optimal performance.
+
+#### Quick Deploy
+
+1. **Connect Repository**
+   ```bash
+   # Install Vercel CLI (optional)
+   npm install -g vercel
+
+   # Login to Vercel
+   vercel login
+   ```
+
+2. **Import Project**
+   - Visit [vercel.com/new](https://vercel.com/new)
+   - Click "Import Project"
+   - Select your Git repository
+   - Choose the `frontend` directory as the root
+
+3. **Configure Build Settings**
+   - Framework Preset: **Next.js**
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+   - Install Command: `npm install`
+   - Root Directory: `frontend`
+
+4. **Set Environment Variables**
+   - Go to Project Settings > Environment Variables
+   - Add all required variables from the [Environment Variables](#environment-variables) section
+   - Set variables for Production, Preview, and Development environments
+
+5. **Deploy**
+   - Click "Deploy"
+   - Wait for the build to complete
+   - Your app will be live at `https://your-project.vercel.app`
+
+#### Vercel CLI Deployment
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Deploy to production
+vercel --prod
+
+# Deploy to preview
+vercel
+```
+
+#### Custom Domain on Vercel
+
+1. Go to Project Settings > Domains
+2. Add your custom domain
+3. Configure DNS records as instructed
+4. Wait for SSL certificate to provision (automatic)
