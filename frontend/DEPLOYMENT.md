@@ -784,3 +784,179 @@ After successfully rolling back:
    - Add checks to prevent similar issues
    - Improve testing coverage
    - Consider additional safeguards
+
+## CI/CD Setup
+
+### GitHub Actions
+
+Create `.github/workflows/frontend-deploy.yml`:
+
+```yaml
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'frontend/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm run test:ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUBGRAPH_URL: ${{ secrets.NEXT_PUBLIC_SUBGRAPH_URL }}
+          NEXT_PUBLIC_CONTRACT_ADDRESS: ${{ secrets.NEXT_PUBLIC_CONTRACT_ADDRESS }}
+          NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID }}
+
+      - name: Run E2E tests
+        run: npm run test:e2e:ci
+        env:
+          CI: true
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          vercel-args: '--prod'
+```
+
+### GitLab CI/CD
+
+Create `.gitlab-ci.yml`:
+
+```yaml
+image: node:18
+
+stages:
+  - test
+  - build
+  - deploy
+
+cache:
+  paths:
+    - frontend/node_modules/
+
+test:
+  stage: test
+  script:
+    - cd frontend
+    - npm ci
+    - npm run lint
+    - npm run test:ci
+  only:
+    - merge_requests
+    - main
+
+build:
+  stage: build
+  script:
+    - cd frontend
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/.next
+    expire_in: 1 hour
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - cd frontend
+    - npm install -g vercel
+    - vercel --token $VERCEL_TOKEN --prod
+  only:
+    - main
+  environment:
+    name: production
+    url: https://your-app.vercel.app
+```
+
+### Required Secrets
+
+Configure these secrets in your CI/CD platform:
+
+#### For Vercel Deployment
+- `VERCEL_TOKEN`: Personal access token from Vercel
+- `VERCEL_ORG_ID`: Organization ID from Vercel
+- `VERCEL_PROJECT_ID`: Project ID from Vercel
+
+#### Environment Variables
+- `NEXT_PUBLIC_SUBGRAPH_URL`
+- `NEXT_PUBLIC_CONTRACT_ADDRESS`
+- `NEXT_PUBLIC_USDC_ADDRESS`
+- `NEXT_PUBLIC_CHAIN_ID`
+- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
+- `NEXT_PUBLIC_RPC_URL`
+
+### Deployment Strategy
+
+#### Branch-based Deployment
+
+- `main` branch → Production environment
+- `staging` branch → Staging environment
+- Feature branches → Preview deployments
+
+#### Pull Request Previews
+
+Both Vercel and Netlify automatically create preview deployments for pull requests:
+
+1. Open a pull request
+2. Preview URL is automatically generated
+3. Test changes in preview environment
+4. Merge when ready to deploy to production
+
+### Automated Testing in CI
+
+Ensure all tests pass before deployment:
+
+```yaml
+# Example test script in package.json
+"scripts": {
+  "test:ci": "jest --ci --coverage --maxWorkers=2",
+  "test:e2e:ci": "playwright test --reporter=github",
+  "lint": "next lint",
+  "type-check": "tsc --noEmit"
+}
+```
