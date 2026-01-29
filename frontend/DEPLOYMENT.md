@@ -203,3 +203,64 @@ vercel
 2. Add your custom domain
 3. Configure DNS records as instructed
 4. Wait for SSL certificate to provision (automatic)
+
+### Netlify
+
+Netlify is an alternative serverless platform with excellent Next.js support.
+
+#### Deploy via Netlify UI
+
+1. **Connect Repository**
+   - Visit [app.netlify.com](https://app.netlify.com)
+   - Click "Add new site" > "Import an existing project"
+   - Connect your Git provider and select repository
+
+2. **Configure Build Settings**
+   ```
+   Base directory: frontend
+   Build command: npm run build
+   Publish directory: .next
+   ```
+
+3. **Add netlify.toml Configuration**
+   Create `frontend/netlify.toml`:
+   ```toml
+   [build]
+     command = "npm run build"
+     publish = ".next"
+     base = "frontend"
+
+   [build.environment]
+     NODE_VERSION = "18"
+
+   [[plugins]]
+     package = "@netlify/plugin-nextjs"
+   ```
+
+4. **Set Environment Variables**
+   - Go to Site Settings > Environment Variables
+   - Add all required variables from the [Environment Variables](#environment-variables) section
+
+5. **Deploy**
+   - Click "Deploy site"
+   - Your app will be live at `https://your-site.netlify.app`
+
+#### Netlify CLI Deployment
+
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Login
+netlify login
+
+# Initialize site
+cd frontend
+netlify init
+
+# Deploy to production
+netlify deploy --prod
+
+# Deploy to preview
+netlify deploy
+```
