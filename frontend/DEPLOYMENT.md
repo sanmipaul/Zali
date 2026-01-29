@@ -414,3 +414,89 @@ curl -I https://yourdomain.com
 # Check SSL certificate details
 openssl s_client -connect yourdomain.com:443 -servername yourdomain.com
 ```
+
+## Monitoring Setup
+
+### Sentry Error Tracking
+
+Sentry is already integrated in the application for error monitoring.
+
+#### Setup Steps
+
+1. **Create Sentry Project**
+   - Visit [sentry.io](https://sentry.io)
+   - Create a new project
+   - Select "Next.js" as the platform
+   - Copy your DSN
+
+2. **Configure Environment Variables**
+   ```bash
+   NEXT_PUBLIC_SENTRY_DSN=https://your-key@sentry.io/your-project-id
+   SENTRY_ENVIRONMENT=production
+   ```
+
+3. **Verify Integration**
+   - Deploy your application
+   - Trigger a test error
+   - Check Sentry dashboard for the error
+
+#### Sentry Features to Enable
+
+- **Performance Monitoring**: Track API response times and page load performance
+- **Session Replay**: Record user sessions for debugging
+- **Release Tracking**: Associate errors with specific deployments
+- **Alerts**: Set up notifications for new errors or performance degradation
+
+### Mixpanel Analytics
+
+Track user behavior and engagement.
+
+#### Setup Steps
+
+1. **Create Mixpanel Project**
+   - Visit [mixpanel.com](https://mixpanel.com)
+   - Create new project
+   - Copy your project token
+
+2. **Configure Environment Variable**
+   ```bash
+   NEXT_PUBLIC_MIXPANEL_TOKEN=your_mixpanel_token
+   ```
+
+3. **Key Events to Track**
+   - Wallet connections
+   - Transaction submissions
+   - Game completions
+   - Page views
+   - Error occurrences
+
+### Vercel Analytics
+
+If deploying to Vercel, enable built-in analytics:
+
+1. Go to your project dashboard
+2. Navigate to Analytics tab
+3. Enable Web Analytics
+4. Enable Speed Insights
+
+### Health Checks
+
+Set up endpoint monitoring:
+
+```bash
+# Create a health check endpoint at /api/health
+# Monitor with services like:
+# - UptimeRobot (https://uptimerobot.com)
+# - Pingdom (https://pingdom.com)
+# - StatusCake (https://statuscake.com)
+```
+
+### Log Aggregation
+
+For production logging:
+
+1. **Vercel**: Logs are available in the deployment dashboard
+2. **Custom Server**: Use services like:
+   - Datadog
+   - LogRocket
+   - Better Stack (formerly Logtail)
