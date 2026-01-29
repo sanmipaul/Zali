@@ -960,3 +960,244 @@ Ensure all tests pass before deployment:
   "type-check": "tsc --noEmit"
 }
 ```
+
+## Security Best Practices
+
+### Environment Variables Security
+
+1. **Never Commit Secrets**
+   - Add `.env*` files to `.gitignore`
+   - Use `.env.example` for documentation only
+   - Never expose private keys or sensitive data
+
+2. **Rotate Credentials Regularly**
+   - Update API keys periodically
+   - Rotate WalletConnect Project IDs if compromised
+   - Update Sentry DSN if exposed
+
+3. **Use Environment-Specific Variables**
+   ```bash
+   # Development
+   .env.local
+
+   # Production (set in deployment platform)
+   # Never commit production secrets to repository
+   ```
+
+### Content Security Policy
+
+Add security headers in `next.config.ts`:
+
+```typescript
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          }
+        ]
+      }
+    ];
+  }
+};
+```
+
+### Web3 Security
+
+1. **Verify Contract Addresses**
+   - Double-check all contract addresses before deployment
+   - Use checksummed addresses
+   - Verify on block explorer
+
+2. **RPC Endpoint Security**
+   - Use reputable RPC providers (Alchemy, Infura, QuickNode)
+   - Implement rate limiting
+   - Monitor for unusual activity
+
+3. **Transaction Security**
+   - Validate all transaction parameters
+   - Implement transaction simulation before signing
+   - Show clear transaction details to users
+
+### Dependency Security
+
+```bash
+# Audit dependencies regularly
+npm audit
+
+# Fix vulnerabilities automatically
+npm audit fix
+
+# Check for outdated packages
+npm outdated
+
+# Update dependencies safely
+npm update
+```
+
+### API Route Protection
+
+If using API routes, implement rate limiting and authentication:
+
+```typescript
+// Example middleware for API routes
+import rateLimit from 'express-rate-limit';
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+export default limiter;
+```
+
+## Performance Optimization
+
+### Image Optimization
+
+Use Next.js Image component:
+
+```typescript
+import Image from 'next/image';
+
+<Image
+  src="/logo.png"
+  alt="Logo"
+  width={200}
+  height={100}
+  priority // For above-the-fold images
+/>
+```
+
+### Code Splitting
+
+Implement dynamic imports for large components:
+
+```typescript
+import dynamic from 'next/dynamic';
+
+const DynamicComponent = dynamic(() => import('@/components/HeavyComponent'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false // Disable server-side rendering if needed
+});
+```
+
+### Caching Strategy
+
+Implement effective caching:
+
+```typescript
+// In next.config.ts
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*.{jpg,jpeg,png,gif,ico,svg,webp}',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+};
+```
+
+### Bundle Size Optimization
+
+1. **Analyze Bundle**
+   ```bash
+   # Install bundle analyzer
+   npm install @next/bundle-analyzer
+
+   # Analyze bundle
+   ANALYZE=true npm run build
+   ```
+
+2. **Tree Shaking**
+   - Import only what you need
+   ```typescript
+   // Good
+   import { useState } from 'react';
+
+   // Bad
+   import * as React from 'react';
+   ```
+
+3. **Remove Unused Dependencies**
+   ```bash
+   npx depcheck
+   ```
+
+### Web3 Performance
+
+1. **Optimize RPC Calls**
+   - Batch multiple calls together
+   - Implement caching for blockchain data
+   - Use multicall contracts
+
+2. **Use The Graph**
+   - Leverage subgraph for complex queries
+   - Reduce direct RPC calls
+   - Implement efficient GraphQL queries
+
+### Monitoring Performance
+
+Use Vercel Analytics or custom performance monitoring:
+
+```typescript
+// Example: Custom performance monitoring
+export function reportWebVitals(metric) {
+  if (metric.label === 'web-vital') {
+    console.log(metric); // Send to analytics
+  }
+}
+```
+
+### Lighthouse Score Optimization
+
+Target scores:
+- Performance: 90+
+- Accessibility: 100
+- Best Practices: 100
+- SEO: 90+
+
+Run lighthouse:
+```bash
+npx lighthouse https://your-domain.com --view
+```
