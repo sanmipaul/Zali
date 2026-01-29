@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { NavbarProps, NavLinkProps } from '@/types/components';
 import { Address } from '@/types/web3';
 import { WalletErrorBoundary } from '@/components/WalletErrorBoundary';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface AppKitInstance {
   open: () => void;
@@ -146,6 +147,7 @@ export default function Navbar({ className = '', 'data-testid': testId }: Navbar
               </Link>
             ))}
             <div className="flex items-center space-x-2">
+              <ThemeToggle />
               <WalletErrorBoundary onReconnect={() => open()}>
                 {!isReady ? (
                   <div className="px-4 py-2 bg-gray-300 text-gray-600 rounded-md">
@@ -183,6 +185,7 @@ export default function Navbar({ className = '', 'data-testid': testId }: Navbar
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
             <WalletErrorBoundary onReconnect={() => open()}>
               <div className="flex items-center space-x-1">
                 {!isReady ? (
