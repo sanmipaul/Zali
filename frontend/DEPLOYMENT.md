@@ -264,3 +264,64 @@ netlify deploy --prod
 # Deploy to preview
 netlify deploy
 ```
+
+### Docker Deployment
+
+Deploy using Docker containers for maximum portability.
+
+#### Docker Setup
+
+1. **Create Dockerfile** (see `frontend/Dockerfile`)
+
+2. **Create .dockerignore**
+   ```
+   node_modules
+   .next
+   .git
+   .env.local
+   npm-debug.log
+   ```
+
+3. **Build Docker Image**
+   ```bash
+   cd frontend
+   docker build -t zali-frontend:latest .
+   ```
+
+4. **Run Container Locally**
+   ```bash
+   docker run -p 3000:3000 \
+     -e NEXT_PUBLIC_SUBGRAPH_URL=your_value \
+     -e NEXT_PUBLIC_CONTRACT_ADDRESS=your_value \
+     -e NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_value \
+     zali-frontend:latest
+   ```
+
+5. **Push to Container Registry**
+   ```bash
+   # Tag for registry
+   docker tag zali-frontend:latest your-registry.com/zali-frontend:latest
+
+   # Push to registry
+   docker push your-registry.com/zali-frontend:latest
+   ```
+
+#### Docker Compose
+
+Create `docker-compose.yml`:
+```yaml
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.production
+    restart: unless-stopped
+```
+
+Run with:
+```bash
+docker-compose up -d
+```
