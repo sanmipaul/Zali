@@ -1201,3 +1201,157 @@ Run lighthouse:
 ```bash
 npx lighthouse https://your-domain.com --view
 ```
+
+## Production Readiness Checklist
+
+Before deploying to production, verify all items:
+
+### Code Quality
+- [ ] All tests passing (unit, integration, E2E)
+- [ ] No TypeScript errors
+- [ ] Linting passes with no errors
+- [ ] Code reviewed and approved
+- [ ] No console.log statements in production code
+- [ ] All TODO comments addressed or documented
+
+### Configuration
+- [ ] All environment variables set correctly
+- [ ] Production environment variables configured
+- [ ] Database connections verified (if applicable)
+- [ ] API endpoints pointing to production
+- [ ] Contract addresses verified on block explorer
+
+### Security
+- [ ] No secrets committed to repository
+- [ ] Security headers configured
+- [ ] HTTPS enabled and enforced
+- [ ] Content Security Policy configured
+- [ ] Dependencies audited (no critical vulnerabilities)
+- [ ] Rate limiting implemented on API routes
+- [ ] CORS properly configured
+
+### Performance
+- [ ] Bundle size optimized
+- [ ] Images optimized
+- [ ] Lazy loading implemented for heavy components
+- [ ] Caching strategy implemented
+- [ ] Lighthouse score meets targets (90+ performance)
+
+### Monitoring
+- [ ] Sentry error tracking configured
+- [ ] Analytics tracking implemented (Mixpanel)
+- [ ] Performance monitoring enabled
+- [ ] Health check endpoint configured
+- [ ] Alert notifications set up
+- [ ] Log aggregation configured
+
+### Blockchain Integration
+- [ ] Contract addresses verified
+- [ ] Network configuration correct (Base mainnet)
+- [ ] RPC endpoints reliable and fast
+- [ ] WalletConnect project ID valid
+- [ ] Subgraph deployed and accessible
+- [ ] Transaction error handling implemented
+
+### User Experience
+- [ ] All pages responsive on mobile/tablet/desktop
+- [ ] Loading states implemented
+- [ ] Error states handled gracefully
+- [ ] Success messages clear and helpful
+- [ ] Wallet connection flow tested
+- [ ] Transaction flows tested end-to-end
+
+### Documentation
+- [ ] README updated with deployment info
+- [ ] API documentation current
+- [ ] Environment variables documented
+- [ ] Troubleshooting guide available
+- [ ] Runbook created for common operations
+
+### Backup & Recovery
+- [ ] Rollback procedure documented and tested
+- [ ] Backup strategy in place
+- [ ] Disaster recovery plan documented
+- [ ] Team trained on emergency procedures
+
+### Legal & Compliance
+- [ ] Privacy policy in place
+- [ ] Terms of service updated
+- [ ] Cookie consent implemented (if needed)
+- [ ] GDPR compliance verified (if applicable)
+- [ ] Analytics opt-out available
+
+### Post-Deployment
+- [ ] Production deployment verified
+- [ ] All critical user flows tested in production
+- [ ] Monitoring dashboards checked
+- [ ] Error tracking confirmed working
+- [ ] Performance metrics baseline recorded
+- [ ] Team notified of deployment
+- [ ] Changelog/release notes published
+
+## Quick Reference
+
+### Essential Commands
+
+```bash
+# Build and test locally
+npm run build && npm run start
+
+# Run all tests
+npm run test:ci && npm run test:e2e
+
+# Check for issues
+npm run lint && npm audit
+
+# Deploy to Vercel
+vercel --prod
+
+# View logs (Vercel)
+vercel logs <deployment-url>
+
+# Rollback (Vercel)
+vercel promote <previous-deployment-url>
+```
+
+### Important URLs
+
+- Vercel Dashboard: https://vercel.com/dashboard
+- Netlify Dashboard: https://app.netlify.com
+- WalletConnect Cloud: https://cloud.walletconnect.com
+- Sentry Dashboard: https://sentry.io
+- The Graph Studio: https://thegraph.com/studio
+- Base Block Explorer: https://basescan.org
+
+### Support Contacts
+
+- Next.js Documentation: https://nextjs.org/docs
+- Vercel Support: https://vercel.com/support
+- WalletConnect Support: https://docs.walletconnect.com
+- Base Network: https://docs.base.org
+
+## Conclusion
+
+This deployment guide covers all aspects of deploying the Zali frontend application to production. Key takeaways:
+
+1. **Use Vercel for simplest deployment** - It's optimized for Next.js and requires minimal configuration
+
+2. **Set all environment variables** - Double-check all required variables are configured correctly
+
+3. **Monitor your application** - Use Sentry and analytics to catch issues early
+
+4. **Test before deploying** - Always verify in preview/staging environments first
+
+5. **Have a rollback plan** - Know how to quickly revert if something goes wrong
+
+6. **Keep dependencies updated** - Regular updates prevent security vulnerabilities
+
+7. **Optimize for performance** - Users expect fast load times, especially in Web3 applications
+
+For questions or issues not covered in this guide, refer to the troubleshooting section or reach out to the development team.
+
+---
+
+**Last Updated**: 2026-01-29
+**Version**: 1.0.0
+**Maintained By**: Zali Development Team
