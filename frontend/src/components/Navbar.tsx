@@ -119,7 +119,7 @@ export default function Navbar({ className = '', 'data-testid': testId }: Navbar
   ];
 
   return (
-    <nav className={`border-b border-gray-200 bg-white shadow-sm ${className}`} data-testid={testId}>
+    <nav className={`border-b border-border bg-card shadow-sm transition-colors duration-300 ${className}`} data-testid={testId}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -137,10 +137,10 @@ export default function Navbar({ className = '', 'data-testid': testId }: Navbar
               <Link
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                   pathname === link.href
-                    ? 'bg-green-100 text-green-700'
-                    : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
+                    ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
+                    : 'text-card-foreground hover:bg-accent hover:text-accent-foreground'
                 }`}
               >
                 {link.name}
